@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Decimal Converter</string>
+    <string name="binary">binary</string>
+    <string name="decimal_to_binary">Decimal To Binary</string>
+    <string name="select_base_formate">Select Number Format</string>
+    <string name="convert">Convert</string>
+    <string name="txt">This is a basic number format converter application [ Decimal, Binary, Octal, Hexadecimal ]</string>
+    <string name="hexadecimal_txt">Hexadecimal : </string>
+    <string name="octal_txt">Octal : </string>
+    <string name="decimal_txt">Decimal : </string>
+    <string name="binary_txt">Binary : </string>
+    <string name="enter_your_format_value">Enter your format value</string>
+</resources>
