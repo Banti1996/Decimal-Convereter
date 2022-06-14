@@ -14,76 +14,105 @@
         tools:context=".ui.MainActivity">
 
         <TextView
+            android:id="@+id/tvGeneralText"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="@string/txt"
-            android:textColor="@color/gray"
+            android:textColor="@color/purple_200"
             android:textSize="12sp"
             android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="@+id/baseSpinnerLayout"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/imageView" />
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+        <TextView
+            android:id="@+id/tvUpperSegmentText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="@string/upper_segment_status"
+            android:textColor="@color/purple_200"
+            android:textAllCaps="false"
+            android:textSize="14sp"
+            app:layout_constraintStart_toStartOf="@+id/tvGeneralText"
+            app:layout_constraintTop_toBottomOf="@+id/tvGeneralText" />
+
+        <TextView
+            android:id="@+id/tvUpperSegmentTextStatus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:text="@string/enable"
+            android:textStyle="bold"
+            android:textAllCaps="false"
+            android:textSize="14sp"
+            android:textColor="@color/green"
+            app:layout_constraintBottom_toBottomOf="@+id/tvUpperSegmentText"
+            app:layout_constraintStart_toEndOf="@+id/tvUpperSegmentText"
+            app:layout_constraintTop_toTopOf="@+id/tvUpperSegmentText" />
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/baseSpinnerLayout"
+            android:id="@+id/upperSegmentSpinnerLayout"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
             android:hint="@string/select_base_formate"
-            android:textColorHint="@color/gray"
-            app:layout_constraintBottom_toBottomOf="@+id/imageView"
-            app:layout_constraintEnd_toStartOf="@+id/imageView"
+            android:textColorHint="@color/purple_200"
+            app:hintTextColor="@color/purple_200"
+            app:boxStrokeColor="@color/purple_200"
+            app:layout_constraintEnd_toStartOf="@+id/ivGeneralIcon"
             app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvUpperSegmentText"
             app:startIconDrawable="@drawable/ic_binary_code"
-            app:startIconTint="@color/gray">
+            app:startIconTint="@color/purple_200">
 
             <androidx.appcompat.widget.AppCompatAutoCompleteTextView
-                android:id="@+id/baseTextView"
+                android:id="@+id/upperSpinner"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:clickable="true"
-                android:textAllCaps="true"
-                android:textColor="@color/gray"
-                android:longClickable="false"
                 android:cursorVisible="false"
+                android:longClickable="false"
+                android:textAllCaps="true"
+                android:textColor="@color/purple_200"
                 tools:ignore="KeyboardInaccessibleWidget" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <ImageView
-            android:id="@+id/imageView"
+            android:id="@+id/ivGeneralIcon"
             android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:layout_marginEnd="0dp"
+            android:layout_height="0dp"
             android:layout_marginTop="8dp"
             android:contentDescription="@string/binary"
             android:padding="0dp"
+            app:layout_constraintBottom_toBottomOf="@+id/upperSegmentSpinnerLayout"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvGeneralText"
             app:srcCompat="@drawable/binary"
-            app:tint="@color/gray" />
+            app:tint="@color/teal_200" />
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/inputTextField"
+            android:id="@+id/upperSegmentInputLayout"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:layout_marginBottom="8dp"
             android:hint="@string/enter_your_format_value"
-            android:textColorHint="@color/gray"
-            app:hintTextColor="@color/gray"
-            app:boxStrokeColor="@color/gray"
-            app:placeholderTextColor="@color/gray"
-            app:counterTextColor="@color/gray"
+            android:textColorHint="@color/purple_200"
+            app:hintTextColor="@color/purple_200"
+            app:boxStrokeColor="@color/purple_200"
             app:startIconDrawable="@drawable/ic_input"
-            app:startIconTint="@color/gray"
+            app:startIconTint="@color/purple_200"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/baseSpinnerLayout">
+            app:layout_constraintTop_toBottomOf="@+id/upperSegmentSpinnerLayout">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/inputData"
+                android:id="@+id/upperSegmentInputData"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:clickable="true"
@@ -104,11 +133,11 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/inputTextField"
+            app:layout_constraintTop_toBottomOf="@+id/upperSegmentInputLayout"
             app:layout_constraintVertical_bias="0.0">
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/constraintLayoutDecimal"
+                android:id="@+id/constraintLayoutDecimalUpperOutputText"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:padding="8dp"
@@ -119,36 +148,37 @@
                 app:layout_constraintTop_toTopOf="parent">
 
                 <TextView
-                    android:id="@+id/tvTextDecimal"
+                    android:id="@+id/tvDecimalUpperOutputText"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:text="@string/decimal_txt"
-                    android:textColor="@color/gray"
+                    android:textColor="@color/purple_200"
                     android:textSize="16sp"
+                    android:textStyle="bold"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
-                    android:id="@+id/tvTextDataDecimal"
+                    android:id="@+id/tvDecimalUpperOutputData"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="4dp"
                     android:layout_marginEnd="4dp"
-                    android:textColor="@color/gray"
+                    android:textColor="@color/purple_200"
                     android:textSize="16sp"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toStartOf="@+id/ivCopyDecimal"
-                    app:layout_constraintStart_toEndOf="@+id/tvTextDecimal"
+                    app:layout_constraintEnd_toStartOf="@+id/ivCopyDecimalUpperData"
+                    app:layout_constraintStart_toEndOf="@+id/tvDecimalUpperOutputText"
                     app:layout_constraintTop_toTopOf="parent"
                     tools:text="12345" />
 
                 <ImageView
-                    android:id="@+id/ivCopyDecimal"
+                    android:id="@+id/ivCopyDecimalUpperData"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:src="@drawable/ic_content_copy"
-                    app:tint="@color/gray"
+                    app:tint="@color/purple_200"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
@@ -157,7 +187,7 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/constraintLayoutBinary"
+                android:id="@+id/constraintLayoutBinaryUpperOutputText"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:padding="8dp"
@@ -166,39 +196,40 @@
                 tools:visibility="visible"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/constraintLayoutDecimal">
+                app:layout_constraintTop_toBottomOf="@+id/constraintLayoutDecimalUpperOutputText">
 
                 <TextView
-                    android:id="@+id/tvTextBinary"
+                    android:id="@+id/tvBinaryUpperOutputText"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:text="@string/binary_txt"
-                    android:textColor="@color/gray"
+                    android:textColor="@color/purple_200"
                     android:textSize="16sp"
+                    android:textStyle="bold"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
-                    android:id="@+id/tvTextDataBinary"
+                    android:id="@+id/tvBinaryUpperOutputData"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="4dp"
                     android:layout_marginEnd="4dp"
-                    android:textColor="@color/gray"
+                    android:textColor="@color/purple_200"
                     android:textSize="16sp"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toStartOf="@+id/ivCopyBinary"
-                    app:layout_constraintStart_toEndOf="@+id/tvTextBinary"
+                    app:layout_constraintEnd_toStartOf="@+id/ivCopyBinaryUpperData"
+                    app:layout_constraintStart_toEndOf="@+id/tvBinaryUpperOutputText"
                     app:layout_constraintTop_toTopOf="parent"
                     tools:text="11001011" />
 
                 <ImageView
-                    android:id="@+id/ivCopyBinary"
+                    android:id="@+id/ivCopyBinaryUpperData"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:src="@drawable/ic_content_copy"
-                    app:tint="@color/gray"
+                    app:tint="@color/purple_200"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
@@ -207,7 +238,7 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/constraintLayoutOctal"
+                android:id="@+id/constraintLayoutOctalUpperOutputText"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:padding="8dp"
@@ -216,39 +247,40 @@
                 tools:visibility="visible"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/constraintLayoutBinary">
+                app:layout_constraintTop_toBottomOf="@+id/constraintLayoutBinaryUpperOutputText">
 
                 <TextView
-                    android:id="@+id/tvTextOctal"
+                    android:id="@+id/tvOctalUpperOutputText"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:text="@string/octal_txt"
-                    android:textColor="@color/gray"
+                    android:textColor="@color/purple_200"
                     android:textSize="16sp"
+                    android:textStyle="bold"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
-                    android:id="@+id/tvTextDataOctal"
+                    android:id="@+id/tvOctalUpperOutputData"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="4dp"
                     android:layout_marginEnd="4dp"
-                    android:textColor="@color/gray"
+                    android:textColor="@color/purple_200"
                     android:textSize="16sp"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toStartOf="@+id/ivCopyOctal"
-                    app:layout_constraintStart_toEndOf="@+id/tvTextOctal"
+                    app:layout_constraintEnd_toStartOf="@+id/ivCopyOctalUpperData"
+                    app:layout_constraintStart_toEndOf="@+id/tvOctalUpperOutputText"
                     app:layout_constraintTop_toTopOf="parent"
                     tools:text="1234570" />
 
                 <ImageView
-                    android:id="@+id/ivCopyOctal"
+                    android:id="@+id/ivCopyOctalUpperData"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:src="@drawable/ic_content_copy"
-                    app:tint="@color/gray"
+                    app:tint="@color/purple_200"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
@@ -257,7 +289,7 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/constraintLayoutHexadecimal"
+                android:id="@+id/constraintLayoutHexadecimalUpperOutputText"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:padding="8dp"
@@ -266,39 +298,40 @@
                 tools:visibility="visible"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/constraintLayoutOctal">
+                app:layout_constraintTop_toBottomOf="@+id/constraintLayoutOctalUpperOutputText">
 
                 <TextView
-                    android:id="@+id/tvTextHexadecimal"
+                    android:id="@+id/tvHexadecimalUpperOutputText"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:text="@string/hexadecimal_txt"
-                    android:textColor="@color/gray"
+                    android:textColor="@color/purple_200"
                     android:textSize="16sp"
+                    android:textStyle="bold"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
-                    android:id="@+id/tvTextDataHexadecimal"
+                    android:id="@+id/tvHexadecimalUpperOutputData"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="4dp"
                     android:layout_marginEnd="4dp"
-                    android:textColor="@color/gray"
+                    android:textColor="@color/purple_200"
                     android:textSize="16sp"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toStartOf="@+id/ivCopyHexadecimal"
-                    app:layout_constraintStart_toEndOf="@+id/tvTextHexadecimal"
+                    app:layout_constraintEnd_toStartOf="@+id/ivCopyHexadecimalUpperData"
+                    app:layout_constraintStart_toEndOf="@+id/tvHexadecimalUpperOutputText"
                     app:layout_constraintTop_toTopOf="parent"
                     tools:text="00345AF" />
 
                 <ImageView
-                    android:id="@+id/ivCopyHexadecimal"
+                    android:id="@+id/ivCopyHexadecimalUpperData"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:src="@drawable/ic_content_copy"
-                    app:tint="@color/gray"
+                    app:tint="@color/purple_200"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
@@ -314,7 +347,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/constraintLayoutHexadecimal">
+                app:layout_constraintTop_toBottomOf="@+id/constraintLayoutHexadecimalUpperOutputText">
 
                 <View
                     android:id="@+id/upperView"
@@ -327,27 +360,29 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
-                    android:id="@+id/tvActiveSegmentText"
+                    android:id="@+id/tvLowerSegmentText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
-                    android:text=" To active segment : "
+                    android:text="@string/lower_segment_status"
                     android:textAllCaps="false"
                     android:textSize="14sp"
-                    app:layout_constraintStart_toStartOf="@+id/toBaseSpinnerLayout"
+                    android:textColor="@color/teal_200"
+                    app:layout_constraintStart_toStartOf="@+id/toLowerToSpinnerLayout"
                     app:layout_constraintTop_toBottomOf="@+id/upperView" />
 
                 <TextView
-                    android:id="@+id/tvActiveSegmentTextStatus"
+                    android:id="@+id/tvLowerSegmentTextStatus"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Disable"
+                    android:layout_marginStart="8dp"
+                    android:text="@string/disable"
                     android:textStyle="bold"
                     android:textAllCaps="false"
                     android:textSize="14sp"
-                    app:layout_constraintBottom_toBottomOf="@+id/tvActiveSegmentText"
-                    app:layout_constraintStart_toEndOf="@+id/tvActiveSegmentText"
-                    app:layout_constraintTop_toTopOf="@+id/tvActiveSegmentText" />
+                    app:layout_constraintBottom_toBottomOf="@+id/tvLowerSegmentText"
+                    app:layout_constraintStart_toEndOf="@+id/tvLowerSegmentText"
+                    app:layout_constraintTop_toTopOf="@+id/tvLowerSegmentText" />
 
 
                 <com.google.android.material.switchmaterial.SwitchMaterial
@@ -356,38 +391,41 @@
                     android:layout_height="20dp"
                     android:layout_marginEnd="4dp"
                     android:checked="false"
-                    app:layout_constraintBottom_toBottomOf="@+id/tvActiveSegmentText"
+                    app:layout_constraintBottom_toBottomOf="@+id/tvLowerSegmentText"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="@+id/tvActiveSegmentText" />
+                    app:layout_constraintTop_toTopOf="@+id/tvLowerSegmentText" />
 
                 <TextView
-                    android:id="@+id/tvTo"
+                    android:id="@+id/tvLowerToText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="12dp"
-                    android:text="To"
+                    android:text="@string/to"
                     android:textAllCaps="false"
                     android:textSize="14sp"
-                    app:layout_constraintStart_toStartOf="@+id/toBaseSpinnerLayout"
+                    android:textColor="@color/teal_200"
+                    app:layout_constraintStart_toStartOf="@+id/toLowerToSpinnerLayout"
                     app:layout_constraintTop_toBottomOf="@+id/swActive" />
 
                 <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/toBaseSpinnerLayout"
+                    android:id="@+id/toLowerToSpinnerLayout"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="4dp"
                     android:hint="@string/select"
-                    android:textColorHint="@color/gray"
-                    app:layout_constraintEnd_toStartOf="@+id/formBaseSpinnerLayout"
+                    android:textColorHint="@color/teal_200"
+                    app:hintTextColor="@color/teal_200"
+                    app:boxStrokeColor="@color/teal_200"
+                    app:layout_constraintEnd_toStartOf="@+id/toLowerFormSpinnerLayout"
                     app:layout_constraintHorizontal_bias="0.5"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/tvTo"
+                    app:layout_constraintTop_toBottomOf="@+id/tvLowerToText"
                     app:startIconDrawable="@drawable/ic_binary_code"
-                    app:startIconTint="@color/gray">
+                    app:startIconTint="@color/teal_200">
 
                     <androidx.appcompat.widget.AppCompatAutoCompleteTextView
-                        android:id="@+id/tvBaseTo"
+                        android:id="@+id/lowerToSpinner"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:clickable="true"
@@ -400,32 +438,35 @@
 
 
                 <TextView
-                    android:id="@+id/tvForm"
+                    android:id="@+id/tvLowerFormText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Form"
+                    android:text="@string/form"
                     android:textAllCaps="false"
                     android:textSize="14sp"
-                    app:layout_constraintStart_toStartOf="@+id/formBaseSpinnerLayout"
-                    app:layout_constraintTop_toTopOf="@+id/tvTo" />
+                    android:textColor="@color/teal_200"
+                    app:layout_constraintStart_toStartOf="@+id/toLowerFormSpinnerLayout"
+                    app:layout_constraintTop_toTopOf="@+id/tvLowerToText" />
 
                 <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/formBaseSpinnerLayout"
+                    android:id="@+id/toLowerFormSpinnerLayout"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="4dp"
                     android:hint="@string/select"
-                    android:textColorHint="@color/gray"
+                    android:textColorHint="@color/teal_200"
+                    app:hintTextColor="@color/teal_200"
+                    app:boxStrokeColor="@color/teal_200"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.5"
-                    app:layout_constraintStart_toEndOf="@+id/toBaseSpinnerLayout"
-                    app:layout_constraintTop_toBottomOf="@+id/tvForm"
+                    app:layout_constraintStart_toEndOf="@+id/toLowerToSpinnerLayout"
+                    app:layout_constraintTop_toBottomOf="@+id/tvLowerFormText"
                     app:startIconDrawable="@drawable/ic_binary_code"
-                    app:startIconTint="@color/gray">
+                    app:startIconTint="@color/teal_200">
 
                     <androidx.appcompat.widget.AppCompatAutoCompleteTextView
-                        android:id="@+id/tvBaseForm"
+                        android:id="@+id/lowerFormSpinner"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:clickable="true"
@@ -437,26 +478,24 @@
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/inputNewTextField"
+                    android:id="@+id/lowerSegmentInputLayout"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
                     android:layout_marginBottom="8dp"
                     android:hint="@string/enter_your_format_value"
-                    android:textColorHint="@color/gray"
-                    app:hintTextColor="@color/gray"
-                    app:boxStrokeColor="@color/gray"
-                    app:placeholderTextColor="@color/gray"
-                    app:counterTextColor="@color/gray"
+                    android:textColorHint="@color/teal_200"
+                    app:hintTextColor="@color/teal_200"
+                    app:boxStrokeColor="@color/teal_200"
                     app:startIconDrawable="@drawable/ic_input"
-                    app:startIconTint="@color/gray"
+                    app:startIconTint="@color/teal_200"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/formBaseSpinnerLayout">
+                    app:layout_constraintTop_toBottomOf="@+id/toLowerFormSpinnerLayout">
 
                     <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/inputNewData"
+                        android:id="@+id/lowerSegmentInputData"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:clickable="true"
@@ -467,7 +506,7 @@
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/constraintLayoutNew"
+                    android:id="@+id/constraintLayoutLowerOutput"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_marginTop="8dp"
@@ -476,14 +515,14 @@
                     tools:visibility="visible"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/inputNewTextField">
+                    app:layout_constraintTop_toBottomOf="@+id/lowerSegmentInputLayout">
 
                     <TextView
-                        android:id="@+id/tvTextLevelData"
+                        android:id="@+id/tvLowerOutputDataText"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         tools:text="@string/decimal_txt"
-                        android:textColor="@color/gray"
+                        android:textColor="@color/teal_200"
                         android:textSize="16sp"
                         android:textAllCaps="false"
                         app:layout_constraintBottom_toBottomOf="parent"
@@ -491,28 +530,29 @@
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <TextView
-                        android:id="@+id/tvTextData"
+                        android:id="@+id/tvLowerOutputData"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
+                        android:layout_marginStart="4dp"
                         android:layout_marginEnd="4dp"
-                        android:textColor="@color/gray"
+                        android:textColor="@color/teal_200"
                         android:textSize="16sp"
                         app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toStartOf="@+id/ivCopyTextData"
-                        app:layout_constraintStart_toEndOf="@+id/tvTextLevelData"
+                        app:layout_constraintEnd_toStartOf="@+id/ivCopyLowerOutput"
+                        app:layout_constraintStart_toEndOf="@+id/tvLowerOutputDataText"
                         app:layout_constraintTop_toTopOf="parent"
                         tools:text="12345" />
 
                     <ImageView
-                        android:id="@+id/ivCopyTextData"
+                        android:id="@+id/ivCopyLowerOutput"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:src="@drawable/ic_content_copy"
-                        app:tint="@color/gray"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
-                        tools:ignore="ContentDescription" />
+                        tools:ignore="ContentDescription"
+                        app:tint="@color/teal_200" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -531,7 +571,7 @@
             android:paddingTop="8dp"
             android:paddingBottom="8dp"
             android:text="@string/convert"
-            android:backgroundTint="@color/gray"
+            android:backgroundTint="@color/teal_200"
             app:icon="@drawable/ic_recycle"
             app:iconGravity="end"
             app:iconPadding="-24dp"
