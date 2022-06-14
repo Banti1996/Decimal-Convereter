@@ -1,8 +1,6 @@
 package com.android.santanu.decimalconverter.ui
 
-import android.R.layout
 import android.annotation.SuppressLint
-import android.app.PendingIntent.getActivity
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
@@ -11,12 +9,15 @@ import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.activity.viewModels
+import androidx.core.content.ContextCompat
+import androidx.core.widget.doOnTextChanged
 import com.android.santanu.decimalconverter.R
 import com.android.santanu.decimalconverter.data.Converter
 import com.android.santanu.decimalconverter.databinding.ActivityMainBinding
 import com.android.santanu.decimalconverter.ui.base.BaseActivity
 import com.android.santanu.decimalconverter.vm.MainViewModel
 import com.google.android.material.snackbar.Snackbar
+import kotlinx.android.synthetic.main.activity_main.*
 import kotlin.system.exitProcess
 
 
@@ -30,6 +31,10 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
     private var octalData : String = ""
     private var hexadecimalData : String = ""
 
+    private var inputNewData : String = ""
+    private var toNewData : String = ""
+    private var formNewData : String = ""
+
     private var mConverter: Converter? = null
 
     private lateinit var mLayout: ActivityMainBinding
@@ -41,6 +46,8 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
         this.add("Octal")
         this.add("Hexadecimal")
     }
+
+    private var isActive: Boolean = false
 
     private lateinit var clipboard : ClipboardManager
 
@@ -54,6 +61,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
         mLayout = getViewDataBinding().apply {
             this.lifecycleOwner = this@MainActivity
         }
+        onRefresh()
         initSpinner()
 
         if(mConverter == null) {
@@ -69,20 +77,67 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
         ).create(MainViewModel::class.java)
         */
 
+        mLayout.baseTextView.doOnTextChanged { text, _, _, _ ->
+            formatData = text.toString()
+            this.onRefresh()
+        }
+
+        mLayout.tvBaseTo.doOnTextChanged { text, _, _, _ ->
+            toNewData = text.toString()
+            this.onNewRefresh()
+        }
+
+        mLayout.tvBaseForm.doOnTextChanged { text, _, _, _ ->
+            formNewData = text.toString()
+            this.onNewRefresh()
+        }
+
+        mLayout.inputData.doOnTextChanged { _, _, _, _ ->
+            /*Toast.makeText(this@MainActivity, "$text apply", Toast.LENGTH_SHORT).also {
+                it.show()
+            }*/
+        }
+
+        mLayout.swActive.setOnCheckedChangeListener { _, isChecked ->
+            isActive = isChecked
+            if (isChecked) {
+                this.onRefresh()
+                mLayout.tvActiveSegmentTextStatus.text = "Enable"
+                mLayout.tvActiveSegmentTextStatus.setTextColor(
+                    ContextCompat.getColor(this@MainActivity, R.color.green)
+                )
+                mLayout.tvBaseTo.isEnabled = true
+                mLayout.tvBaseForm.isEnabled = true
+                mLayout.inputNewData.isEnabled = true
+            } else {
+                mLayout.tvActiveSegmentTextStatus.text = "Disable"
+                mLayout.tvActiveSegmentTextStatus.setTextColor(
+                    ContextCompat.getColor(this@MainActivity, R.color.gray)
+                )
+                mLayout.tvBaseTo.isEnabled = false
+                mLayout.tvBaseForm.isEnabled = false
+                mLayout.inputNewData.isEnabled = false
+            }
+        }
 
         mLayout.convertButton.setOnClickListener {
-            formatData = mLayout.baseTextView.text.toString() ?: null
-            if (formatData != null && formatData!!.isNotEmpty()) {
-                if (formateList.contains(formatData)) {
-                    proceed()
+            // formatData = mLayout.baseTextView.text.toString() ?: null
+
+            if (isActive) {
+                newProceed()
+            } else {
+                if (formatData != null && formatData!!.isNotEmpty()) {
+                    if (formateList.contains(formatData)) {
+                        proceed()
+                    } else {
+                        Toast.makeText(this@MainActivity, "Please Select Number Format From Dropdown List", Toast.LENGTH_SHORT).also {
+                            it.show()
+                        }
+                    }
                 } else {
-                    Toast.makeText(this@MainActivity, "Please Select Number Format From Dropdown List", Toast.LENGTH_SHORT).also {
+                    Toast.makeText(this@MainActivity, "Please Select Number Format", Toast.LENGTH_SHORT).also {
                         it.show()
                     }
-                }
-            } else {
-                Toast.makeText(this@MainActivity, "Please Select Number Format", Toast.LENGTH_SHORT).also {
-                    it.show()
                 }
             }
         }
@@ -135,18 +190,18 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
             decimalData = mLayout.inputData.text.toString()
             if (decimalData.isNotEmpty()) {
                 if(mConverter!!.checkDecimalNumberFormat(decimalData)) {
-                    binaryData = mConverter!!.decimalToBinary(decimalData.toInt()).toString()
-                    octalData = mConverter!!.decimalToOctal(decimalData.toInt()).toString()
-                    hexadecimalData = mConverter!!.decimalToHexadecimal(decimalData.toInt())
+                    binaryData = mConverter!!.convertDecimalToBinary(decimalData.toLong()).toString()
+                    octalData = mConverter!!.convertDecimalToOctal(decimalData.toLong()).toString()
+                    hexadecimalData = mConverter!!.convertDecimalToHexadecimal(decimalData.toLong())
 
                     updateLayoutData(formatData!!)
                 } else {
-                    Toast.makeText(this@MainActivity, "Wrong Format Data", Toast.LENGTH_SHORT).also {
+                    Toast.makeText(this@MainActivity, "Decimal Data Format Incorrect", Toast.LENGTH_LONG).also {
                         it.show()
                     }
                 }
             } else {
-                Toast.makeText(this@MainActivity, "Decimal Data Empty", Toast.LENGTH_SHORT).also {
+                Toast.makeText(this@MainActivity, "Decimal Data Field Empty", Toast.LENGTH_LONG).also {
                     it.show()
                 }
             }
@@ -154,18 +209,18 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
             binaryData = mLayout.inputData.text.toString()
             if (binaryData.isNotEmpty()) {
                 if(mConverter!!.checkBinaryNumberFormat(binaryData)) {
-                    decimalData = mConverter!!.binaryToDecimal(binaryData.toLong()).toString()
-                    octalData = mConverter!!.binaryToOctal(binaryData.toLong()).toString()
-                    hexadecimalData = mConverter!!.binaryToHexadecimal(binaryData.toLong())
+                    decimalData = mConverter!!.convertBinaryToDecimal(binaryData.toLong()).toString()
+                    octalData = mConverter!!.convertBinaryToOctal(binaryData.toLong()).toString()
+                    hexadecimalData = mConverter!!.convertBinaryToHexadecimal(binaryData.toLong())
 
                     updateLayoutData(formatData!!)
                 } else {
-                    Toast.makeText(this@MainActivity, "Wrong Format Data", Toast.LENGTH_SHORT).also {
+                    Toast.makeText(this@MainActivity, "Binary Data Format Incorrect", Toast.LENGTH_LONG).also {
                         it.show()
                     }
                 }
             } else {
-                Toast.makeText(this@MainActivity, "Binary Data Empty", Toast.LENGTH_SHORT).also {
+                Toast.makeText(this@MainActivity, "Binary Data Field Empty", Toast.LENGTH_LONG).also {
                     it.show()
                 }
             }
@@ -173,18 +228,18 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
             octalData = mLayout.inputData.text.toString()
             if (octalData.isNotEmpty()) {
                 if(mConverter!!.checkOctalNumberFormat(octalData)) {
-                    decimalData = mConverter!!.octalToDecimal(octalData.toInt()).toString()
-                    binaryData = mConverter!!.octalToBinary(octalData.toInt()).toString()
-                    hexadecimalData = mConverter!!.octalToHexadecimal(octalData.toInt())
+                    decimalData = mConverter!!.convertOctalToDecimal(octalData.toLong()).toString()
+                    binaryData = mConverter!!.convertOctalToBinary(octalData.toLong()).toString()
+                    hexadecimalData = mConverter!!.convertOctalToHexadecimal(octalData.toLong())
 
                     updateLayoutData(formatData!!)
                 } else {
-                    Toast.makeText(this@MainActivity, "Wrong Format Data", Toast.LENGTH_SHORT).also {
+                    Toast.makeText(this@MainActivity, "Octal Data Format Incorrect", Toast.LENGTH_LONG).also {
                         it.show()
                     }
                 }
             } else {
-                Toast.makeText(this@MainActivity, "Octal Data Empty", Toast.LENGTH_SHORT).also {
+                Toast.makeText(this@MainActivity, "Octal Data Field Empty", Toast.LENGTH_LONG).also {
                     it.show()
                 }
             }
@@ -192,18 +247,18 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
             hexadecimalData = mLayout.inputData.text.toString()
             if (hexadecimalData.isNotEmpty()) {
                 if(mConverter!!.checkHexadecimalNumberFormat(hexadecimalData)) {
-                    decimalData = mConverter!!.hexadecimalToDecimal(hexadecimalData).toString()
-                    binaryData = mConverter!!.hexadecimalToBinary(hexadecimalData).toString()
-                    octalData = mConverter!!.hexadecimalToOctal(hexadecimalData).toString()
+                    decimalData = mConverter!!.convertHexadecimalToDecimal(hexadecimalData).toString()
+                    binaryData = mConverter!!.convertHexadecimalToBinary(hexadecimalData).toString()
+                    octalData = mConverter!!.convertHexadecimalToOctal(hexadecimalData).toString()
 
                     updateLayoutData(formatData!!)
                 } else {
-                    Toast.makeText(this@MainActivity, "Wrong Format Data", Toast.LENGTH_SHORT).also {
+                    Toast.makeText(this@MainActivity, "Hexadecimal Data Format Incorrect", Toast.LENGTH_LONG).also {
                         it.show()
                     }
                 }
             } else {
-                Toast.makeText(this@MainActivity, "Hexadecimal Data Empty", Toast.LENGTH_SHORT).also {
+                Toast.makeText(this@MainActivity, "Hexadecimal Data Field Empty", Toast.LENGTH_LONG).also {
                     it.show()
                 }
             }
@@ -223,6 +278,204 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
         }
     }
 
+    private fun newProceed() {
+        inputNewData = mLayout.inputNewData.text.toString()
+        // toNewData = mLayout.tvBaseTo.text.toString()
+        // formNewData = mLayout.tvBaseForm.text.toString()
+
+        if (toNewData == "Decimal") {
+            if (formNewData == "Decimal") {
+                Toast.makeText(this@MainActivity, "Both selection are same, select different", Toast.LENGTH_SHORT).also {
+                    it.show()
+                }
+            } else if(formNewData == "Binary") {
+                if(mConverter!!.checkDecimalNumberFormat(inputNewData)) {
+                    mLayout.constraintLayoutNew.visibility = View.VISIBLE
+                    mLayout.tvTextLevelData.text = formNewData
+                    mLayout.tvTextData.text = mConverter!!.convertDecimalToBinary(
+                        inputNewData.toLong()
+                    )
+                } else {
+                    Toast.makeText(this@MainActivity, "Incorrect Decimal Data Formate", Toast.LENGTH_SHORT).also {
+                        it.show()
+                    }
+                }
+            } else if(formNewData == "Octal") {
+                if(mConverter!!.checkDecimalNumberFormat(inputNewData)) {
+                    mLayout.constraintLayoutNew.visibility = View.VISIBLE
+                    mLayout.tvTextLevelData.text = formNewData
+                    mLayout.tvTextData.text = mConverter!!.convertDecimalToOctal(
+                        inputNewData.toLong()
+                    )
+                } else {
+                    Toast.makeText(this@MainActivity, "Incorrect Decimal Data Formate", Toast.LENGTH_SHORT).also {
+                        it.show()
+                    }
+                }
+            } else if(formNewData == "Hexadecimal") {
+                if(mConverter!!.checkDecimalNumberFormat(inputNewData)) {
+                    mLayout.constraintLayoutNew.visibility = View.VISIBLE
+                    mLayout.tvTextLevelData.text = formNewData
+                    mLayout.tvTextData.text = mConverter!!.convertDecimalToHexadecimal(
+                        inputNewData.toLong()
+                    )
+                } else {
+                    Toast.makeText(this@MainActivity, "Incorrect Decimal Data Formate", Toast.LENGTH_SHORT).also {
+                        it.show()
+                    }
+                }
+            } else {
+                Toast.makeText(this@MainActivity, "something went wrong", Toast.LENGTH_SHORT).also {
+                    it.show()
+                }
+            }
+        } else if(toNewData == "Binary") {
+            if (formNewData == "Decimal") {
+                if(mConverter!!.checkBinaryNumberFormat(inputNewData)) {
+                    mLayout.constraintLayoutNew.visibility = View.VISIBLE
+                    mLayout.tvTextLevelData.text = formNewData
+                    mLayout.tvTextData.text = mConverter!!.convertBinaryToDecimal(
+                        inputNewData.toLong()
+                    )
+                } else {
+                    Toast.makeText(this@MainActivity, "Incorrect Binary Data Formate", Toast.LENGTH_SHORT).also {
+                        it.show()
+                    }
+                }
+            } else if(formNewData == "Binary") {
+                Toast.makeText(this@MainActivity, "Both selection are same, select different", Toast.LENGTH_SHORT).also {
+                    it.show()
+                }
+            } else if(formNewData == "Octal") {
+                if(mConverter!!.checkBinaryNumberFormat(inputNewData)) {
+                    mLayout.constraintLayoutNew.visibility = View.VISIBLE
+                    mLayout.tvTextLevelData.text = formNewData
+                    mLayout.tvTextData.text = mConverter!!.convertBinaryToOctal(
+                        inputNewData.toLong()
+                    )
+                } else {
+                    Toast.makeText(this@MainActivity, "Incorrect Binary Data Formate", Toast.LENGTH_SHORT).also {
+                        it.show()
+                    }
+                }
+            } else if(formNewData == "Hexadecimal") {
+                if(mConverter!!.checkBinaryNumberFormat(inputNewData)) {
+                    mLayout.constraintLayoutNew.visibility = View.VISIBLE
+                    mLayout.tvTextLevelData.text = formNewData
+                    mLayout.tvTextData.text = mConverter!!.convertBinaryToHexadecimal(
+                        inputNewData.toLong()
+                    )
+                } else {
+                    Toast.makeText(this@MainActivity, "Incorrect Binary Data Formate", Toast.LENGTH_SHORT).also {
+                        it.show()
+                    }
+                }
+            } else {
+                Toast.makeText(this@MainActivity, "Something went wrong", Toast.LENGTH_SHORT).also {
+                    it.show()
+                }
+            }
+        } else if(toNewData == "Octal") {
+            if (formNewData == "Decimal") {
+                if(mConverter!!.checkOctalNumberFormat(inputNewData)) {
+                    mLayout.constraintLayoutNew.visibility = View.VISIBLE
+                    mLayout.tvTextLevelData.text = formNewData
+                    mLayout.tvTextData.text = mConverter!!.convertOctalToDecimal(
+                        inputNewData.toLong()
+                    )
+                } else {
+                    Toast.makeText(this@MainActivity, "Incorrect Octal Data Formate", Toast.LENGTH_SHORT).also {
+                        it.show()
+                    }
+                }
+            } else if(formNewData == "Binary") {
+                if(mConverter!!.checkOctalNumberFormat(inputNewData)) {
+                    mLayout.constraintLayoutNew.visibility = View.VISIBLE
+                    mLayout.tvTextLevelData.text = formNewData
+                    mLayout.tvTextData.text = mConverter!!.convertOctalToBinary(
+                        inputNewData.toLong()
+                    )
+                } else {
+                    Toast.makeText(this@MainActivity, "Incorrect Octal Data Formate", Toast.LENGTH_SHORT).also {
+                        it.show()
+                    }
+                }
+            } else if(formNewData == "Octal") {
+                Toast.makeText(this@MainActivity, "Both selection are same, select different", Toast.LENGTH_SHORT).also {
+                    it.show()
+                }
+            } else if(formNewData == "Hexadecimal") {
+                if(mConverter!!.checkOctalNumberFormat(inputNewData)) {
+                    mLayout.constraintLayoutNew.visibility = View.VISIBLE
+                    mLayout.tvTextLevelData.text = formNewData
+                    mLayout.tvTextData.text = mConverter!!.convertOctalToHexadecimal(
+                        inputNewData.toLong()
+                    )
+                } else {
+                    Toast.makeText(this@MainActivity, "Incorrect Octal Data Formate", Toast.LENGTH_SHORT).also {
+                        it.show()
+                    }
+                }
+            } else {
+                Toast.makeText(this@MainActivity, "Something went wrong", Toast.LENGTH_SHORT).also {
+                    it.show()
+                }
+            }
+        } else if(toNewData == "Hexadecimal") {
+            if (formNewData == "Decimal") {
+                if(mConverter!!.checkHexadecimalNumberFormat(inputNewData)) {
+                    mLayout.constraintLayoutNew.visibility = View.VISIBLE
+                    mLayout.tvTextLevelData.text = formNewData
+                    mLayout.tvTextData.text = mConverter!!.convertHexadecimalToDecimal(
+                        inputNewData
+                    )
+                } else {
+                    Toast.makeText(this@MainActivity, "Incorrect Hexadecimal Data Formate", Toast.LENGTH_SHORT).also {
+                        it.show()
+                    }
+                }
+            } else if(formNewData == "Binary") {
+                if(mConverter!!.checkHexadecimalNumberFormat(inputNewData)) {
+                    mLayout.constraintLayoutNew.visibility = View.VISIBLE
+                    mLayout.tvTextLevelData.text = formNewData
+                    mLayout.tvTextData.text = mConverter!!.convertHexadecimalToBinary(
+                        inputNewData
+                    )
+                } else {
+                    Toast.makeText(this@MainActivity, "Incorrect Hexadecimal Data Formate", Toast.LENGTH_SHORT).also {
+                        it.show()
+                    }
+                }
+            } else if(formNewData == "Octal") {
+                if(mConverter!!.checkHexadecimalNumberFormat(inputNewData)) {
+                    mLayout.constraintLayoutNew.visibility = View.VISIBLE
+                    mLayout.tvTextLevelData.text = formNewData
+                    mLayout.tvTextData.text = mConverter!!.convertHexadecimalToOctal(
+                        inputNewData
+                    )
+                } else {
+                    Toast.makeText(this@MainActivity, "Incorrect Hexadecimal Data Formate", Toast.LENGTH_SHORT).also {
+                        it.show()
+                    }
+                }
+            } else if(formNewData == "Hexadecimal") {
+                Toast.makeText(this@MainActivity, "Both selection are same, select different", Toast.LENGTH_SHORT).also {
+                    it.show()
+                }
+            } else {
+                Toast.makeText(this@MainActivity, "Something went wrong", Toast.LENGTH_SHORT).also {
+                    it.show()
+                }
+            }
+        } else {
+            Toast.makeText(this@MainActivity, "Something went wrong", Toast.LENGTH_SHORT).also {
+                it.show()
+            }
+        }
+
+
+    }
+
     private fun updateLayoutData(formatData: String) {
 
         mLayout.tvTextDataDecimal.text = decimalData
@@ -230,17 +483,22 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
         mLayout.tvTextDataOctal.text = octalData
         mLayout.tvTextDataHexadecimal.text = hexadecimalData
 
+        mLayout.constraintLayoutDecimal.visibility = View.VISIBLE
+        mLayout.constraintLayoutBinary.visibility = View.VISIBLE
+        mLayout.constraintLayoutOctal.visibility = View.VISIBLE
+        mLayout.constraintLayoutHexadecimal.visibility = View.VISIBLE
+
         if (formatData == "Decimal") {
-            mLayout.constraintLayoutDecimal.visibility = View.GONE
+            // mLayout.constraintLayoutDecimal.visibility = View.GONE
             // mLayout.tvTextDataDecimal.visibility = View.INVISIBLE
         } else if((formatData == "Binary")) {
-            mLayout.constraintLayoutBinary.visibility = View.GONE
+            // mLayout.constraintLayoutBinary.visibility = View.GONE
             // mLayout.tvTextDataBinary.visibility = View.INVISIBLE
         } else if((formatData == "Octal")) {
-            mLayout.constraintLayoutOctal.visibility = View.GONE
+            // mLayout.constraintLayoutOctal.visibility = View.GONE
             // mLayout.tvTextDataOctal.visibility = View.INVISIBLE
         } else if((formatData == "Hexadecimal")) {
-            mLayout.constraintLayoutHexadecimal.visibility = View.GONE
+            // mLayout.constraintLayoutHexadecimal.visibility = View.GONE
             // mLayout.tvTextDataHexadecimal.visibility = View.INVISIBLE
         }else {
             Toast.makeText(this@MainActivity, "Something Went Wrong, Restart Application", Toast.LENGTH_LONG).also {
@@ -266,10 +524,18 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
         octalData = ""
         hexadecimalData = ""
 
-        mLayout.constraintLayoutDecimal.visibility = View.VISIBLE
-        mLayout.constraintLayoutBinary.visibility = View.VISIBLE
-        mLayout.constraintLayoutOctal.visibility = View.VISIBLE
-        mLayout.constraintLayoutHexadecimal.visibility = View.VISIBLE
+        mLayout.constraintLayoutDecimal.visibility = View.INVISIBLE
+        mLayout.constraintLayoutBinary.visibility = View.INVISIBLE
+        mLayout.constraintLayoutOctal.visibility = View.INVISIBLE
+        mLayout.constraintLayoutHexadecimal.visibility = View.INVISIBLE
+    }
+
+    private fun onNewRefresh() {
+        mLayout.inputNewData.setText("")
+
+        inputNewData = ""
+
+        mLayout.constraintLayoutNew.visibility = View.INVISIBLE
     }
 
     private fun initSpinner() {
@@ -280,6 +546,8 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
         )
 
         mLayout.baseTextView.setAdapter(spinnerAdapter)
+        mLayout.tvBaseTo.setAdapter(spinnerAdapter)
+        mLayout.tvBaseForm.setAdapter(spinnerAdapter)
     }
 
 

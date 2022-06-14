@@ -17,8 +17,9 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="@string/txt"
-            android:textColor="@color/teal_700"
+            android:textColor="@color/gray"
             android:textSize="12sp"
+            android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="@+id/baseSpinnerLayout"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/imageView" />
@@ -30,12 +31,12 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
             android:hint="@string/select_base_formate"
-            android:textColorHint="@color/teal_700"
+            android:textColorHint="@color/gray"
             app:layout_constraintBottom_toBottomOf="@+id/imageView"
             app:layout_constraintEnd_toStartOf="@+id/imageView"
             app:layout_constraintStart_toStartOf="parent"
             app:startIconDrawable="@drawable/ic_binary_code"
-            app:startIconTint="@color/teal_700">
+            app:startIconTint="@color/gray">
 
             <androidx.appcompat.widget.AppCompatAutoCompleteTextView
                 android:id="@+id/baseTextView"
@@ -43,7 +44,7 @@
                 android:layout_height="wrap_content"
                 android:clickable="true"
                 android:textAllCaps="true"
-                android:textColor="@color/teal_700"
+                android:textColor="@color/gray"
                 android:longClickable="false"
                 android:cursorVisible="false"
                 tools:ignore="KeyboardInaccessibleWidget" />
@@ -60,7 +61,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/binary"
-            app:tint="@color/teal_200" />
+            app:tint="@color/gray" />
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/inputTextField"
@@ -70,13 +71,13 @@
             android:layout_marginTop="8dp"
             android:layout_marginBottom="8dp"
             android:hint="@string/enter_your_format_value"
-            android:textColorHint="@color/teal_700"
-            app:hintTextColor="@color/teal_700"
-            app:boxStrokeColor="@color/teal_700"
-            app:placeholderTextColor="@color/teal_700"
-            app:counterTextColor="@color/teal_700"
+            android:textColorHint="@color/gray"
+            app:hintTextColor="@color/gray"
+            app:boxStrokeColor="@color/gray"
+            app:placeholderTextColor="@color/gray"
+            app:counterTextColor="@color/gray"
             app:startIconDrawable="@drawable/ic_input"
-            app:startIconTint="@color/teal_700"
+            app:startIconTint="@color/gray"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/baseSpinnerLayout">
@@ -86,7 +87,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:clickable="true"
-                android:textColor="@color/teal_700"
+                android:textColor="@color/gray"
                 android:longClickable="false"
                 android:cursorVisible="true" />
 
@@ -111,6 +112,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:padding="8dp"
+                android:visibility="invisible"
+                tools:visibility="visible"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
@@ -120,7 +123,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:text="@string/decimal_txt"
-                    android:textColor="@color/teal_700"
+                    android:textColor="@color/gray"
                     android:textSize="16sp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -132,7 +135,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="4dp"
                     android:layout_marginEnd="4dp"
-                    android:textColor="@color/teal_700"
+                    android:textColor="@color/gray"
                     android:textSize="16sp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@+id/ivCopyDecimal"
@@ -145,7 +148,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:src="@drawable/ic_content_copy"
-                    app:tint="@color/teal_700"
+                    app:tint="@color/gray"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
@@ -159,6 +162,8 @@
                 android:layout_height="0dp"
                 android:padding="8dp"
                 android:layout_marginTop="8dp"
+                android:visibility="invisible"
+                tools:visibility="visible"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/constraintLayoutDecimal">
@@ -168,7 +173,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:text="@string/binary_txt"
-                    android:textColor="@color/teal_700"
+                    android:textColor="@color/gray"
                     android:textSize="16sp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -180,7 +185,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="4dp"
                     android:layout_marginEnd="4dp"
-                    android:textColor="@color/teal_700"
+                    android:textColor="@color/gray"
                     android:textSize="16sp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@+id/ivCopyBinary"
@@ -193,7 +198,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:src="@drawable/ic_content_copy"
-                    app:tint="@color/teal_700"
+                    app:tint="@color/gray"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
@@ -207,6 +212,8 @@
                 android:layout_height="0dp"
                 android:padding="8dp"
                 android:layout_marginTop="8dp"
+                android:visibility="invisible"
+                tools:visibility="visible"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/constraintLayoutBinary">
@@ -216,7 +223,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:text="@string/octal_txt"
-                    android:textColor="@color/teal_700"
+                    android:textColor="@color/gray"
                     android:textSize="16sp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -228,7 +235,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="4dp"
                     android:layout_marginEnd="4dp"
-                    android:textColor="@color/teal_700"
+                    android:textColor="@color/gray"
                     android:textSize="16sp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@+id/ivCopyOctal"
@@ -241,7 +248,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:src="@drawable/ic_content_copy"
-                    app:tint="@color/teal_700"
+                    app:tint="@color/gray"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
@@ -255,6 +262,8 @@
                 android:layout_height="0dp"
                 android:padding="8dp"
                 android:layout_marginTop="8dp"
+                android:visibility="invisible"
+                tools:visibility="visible"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/constraintLayoutOctal">
@@ -264,7 +273,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:text="@string/hexadecimal_txt"
-                    android:textColor="@color/teal_700"
+                    android:textColor="@color/gray"
                     android:textSize="16sp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -276,7 +285,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="4dp"
                     android:layout_marginEnd="4dp"
-                    android:textColor="@color/teal_700"
+                    android:textColor="@color/gray"
                     android:textSize="16sp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@+id/ivCopyHexadecimal"
@@ -289,13 +298,228 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:src="@drawable/ic_content_copy"
-                    app:tint="@color/teal_700"
+                    app:tint="@color/gray"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     tools:ignore="ContentDescription" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/constraintNewSegmentLayout"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:padding="8dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/constraintLayoutHexadecimal">
+
+                <View
+                    android:id="@+id/upperView"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/gray"
+                    android:backgroundTint="@color/gray"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/tvActiveSegmentText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:text=" To active segment : "
+                    android:textAllCaps="false"
+                    android:textSize="14sp"
+                    app:layout_constraintStart_toStartOf="@+id/toBaseSpinnerLayout"
+                    app:layout_constraintTop_toBottomOf="@+id/upperView" />
+
+                <TextView
+                    android:id="@+id/tvActiveSegmentTextStatus"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Disable"
+                    android:textStyle="bold"
+                    android:textAllCaps="false"
+                    android:textSize="14sp"
+                    app:layout_constraintBottom_toBottomOf="@+id/tvActiveSegmentText"
+                    app:layout_constraintStart_toEndOf="@+id/tvActiveSegmentText"
+                    app:layout_constraintTop_toTopOf="@+id/tvActiveSegmentText" />
+
+
+                <com.google.android.material.switchmaterial.SwitchMaterial
+                    android:id="@+id/swActive"
+                    android:layout_width="wrap_content"
+                    android:layout_height="20dp"
+                    android:layout_marginEnd="4dp"
+                    android:checked="false"
+                    app:layout_constraintBottom_toBottomOf="@+id/tvActiveSegmentText"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/tvActiveSegmentText" />
+
+                <TextView
+                    android:id="@+id/tvTo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:text="To"
+                    android:textAllCaps="false"
+                    android:textSize="14sp"
+                    app:layout_constraintStart_toStartOf="@+id/toBaseSpinnerLayout"
+                    app:layout_constraintTop_toBottomOf="@+id/swActive" />
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/toBaseSpinnerLayout"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="4dp"
+                    android:hint="@string/select"
+                    android:textColorHint="@color/gray"
+                    app:layout_constraintEnd_toStartOf="@+id/formBaseSpinnerLayout"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tvTo"
+                    app:startIconDrawable="@drawable/ic_binary_code"
+                    app:startIconTint="@color/gray">
+
+                    <androidx.appcompat.widget.AppCompatAutoCompleteTextView
+                        android:id="@+id/tvBaseTo"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:clickable="true"
+                        android:cursorVisible="false"
+                        android:longClickable="false"
+                        android:textAllCaps="true"
+                        android:textColor="@color/gray"
+                        tools:ignore="KeyboardInaccessibleWidget" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+
+                <TextView
+                    android:id="@+id/tvForm"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Form"
+                    android:textAllCaps="false"
+                    android:textSize="14sp"
+                    app:layout_constraintStart_toStartOf="@+id/formBaseSpinnerLayout"
+                    app:layout_constraintTop_toTopOf="@+id/tvTo" />
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/formBaseSpinnerLayout"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="4dp"
+                    android:hint="@string/select"
+                    android:textColorHint="@color/gray"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toEndOf="@+id/toBaseSpinnerLayout"
+                    app:layout_constraintTop_toBottomOf="@+id/tvForm"
+                    app:startIconDrawable="@drawable/ic_binary_code"
+                    app:startIconTint="@color/gray">
+
+                    <androidx.appcompat.widget.AppCompatAutoCompleteTextView
+                        android:id="@+id/tvBaseForm"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:clickable="true"
+                        android:cursorVisible="false"
+                        android:longClickable="false"
+                        android:textAllCaps="true"
+                        android:textColor="@color/gray"
+                        tools:ignore="KeyboardInaccessibleWidget" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/inputNewTextField"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="8dp"
+                    android:hint="@string/enter_your_format_value"
+                    android:textColorHint="@color/gray"
+                    app:hintTextColor="@color/gray"
+                    app:boxStrokeColor="@color/gray"
+                    app:placeholderTextColor="@color/gray"
+                    app:counterTextColor="@color/gray"
+                    app:startIconDrawable="@drawable/ic_input"
+                    app:startIconTint="@color/gray"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/formBaseSpinnerLayout">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/inputNewData"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:clickable="true"
+                        android:textColor="@color/gray"
+                        android:longClickable="false"
+                        android:cursorVisible="true" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/constraintLayoutNew"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_marginTop="8dp"
+                    android:padding="8dp"
+                    android:visibility="invisible"
+                    tools:visibility="visible"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/inputNewTextField">
+
+                    <TextView
+                        android:id="@+id/tvTextLevelData"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        tools:text="@string/decimal_txt"
+                        android:textColor="@color/gray"
+                        android:textSize="16sp"
+                        android:textAllCaps="false"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/tvTextData"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="4dp"
+                        android:textColor="@color/gray"
+                        android:textSize="16sp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toStartOf="@+id/ivCopyTextData"
+                        app:layout_constraintStart_toEndOf="@+id/tvTextLevelData"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:text="12345" />
+
+                    <ImageView
+                        android:id="@+id/ivCopyTextData"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/ic_content_copy"
+                        app:tint="@color/gray"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:ignore="ContentDescription" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -307,7 +531,7 @@
             android:paddingTop="8dp"
             android:paddingBottom="8dp"
             android:text="@string/convert"
-            android:backgroundTint="@color/teal_700"
+            android:backgroundTint="@color/gray"
             app:icon="@drawable/ic_recycle"
             app:iconGravity="end"
             app:iconPadding="-24dp"
