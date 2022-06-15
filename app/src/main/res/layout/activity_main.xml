@@ -18,7 +18,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="@string/txt"
-            android:textColor="@color/purple_200"
+            android:textColor="@color/red"
             android:textSize="12sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
@@ -57,7 +57,7 @@
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="16dp"
             android:layout_marginEnd="8dp"
             android:hint="@string/select_base_formate"
             android:textColorHint="@color/purple_200"
@@ -74,6 +74,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:clickable="true"
+                android:ems="3"
+                android:gravity="start"
+                android:maxLines="1"
                 android:cursorVisible="false"
                 android:longClickable="false"
                 android:textAllCaps="true"
@@ -96,7 +99,7 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/upperSegmentInputLayout"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            style="@style/UpperSegmentTextInputLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
@@ -109,7 +112,13 @@
             app:startIconTint="@color/purple_200"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/upperSegmentSpinnerLayout">
+            app:layout_constraintTop_toBottomOf="@+id/upperSegmentSpinnerLayout"
+            app:helperTextEnabled="false"
+            app:helperTextTextColor="@color/red"
+            app:errorEnabled="true"
+            app:errorTextColor="@color/red"
+            app:errorIconTint="@color/red"
+            app:errorIconDrawable="@drawable/ic_error">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/upperSegmentInputData"
@@ -118,7 +127,7 @@
                 android:clickable="true"
                 android:textColor="@color/gray"
                 android:longClickable="false"
-                android:cursorVisible="true" />
+                android:cursorVisible="true"/>
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -343,6 +352,7 @@
                 android:id="@+id/constraintNewSegmentLayout"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
+                android:layout_marginTop="8dp"
                 android:padding="8dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -429,10 +439,13 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:clickable="true"
+                        android:ems="3"
+                        android:gravity="start"
+                        android:maxLines="1"
                         android:cursorVisible="false"
                         android:longClickable="false"
                         android:textAllCaps="true"
-                        android:textColor="@color/gray"
+                        android:textColor="@color/teal_200"
                         tools:ignore="KeyboardInaccessibleWidget" />
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -470,16 +483,19 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:clickable="true"
+                        android:ems="3"
+                        android:gravity="start"
+                        android:maxLines="1"
                         android:cursorVisible="false"
                         android:longClickable="false"
                         android:textAllCaps="true"
-                        android:textColor="@color/gray"
+                        android:textColor="@color/teal_200"
                         tools:ignore="KeyboardInaccessibleWidget" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/lowerSegmentInputLayout"
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    style="@style/LowerSegmentTextInputLayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
@@ -492,7 +508,13 @@
                     app:startIconTint="@color/teal_200"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/toLowerFormSpinnerLayout">
+                    app:layout_constraintTop_toBottomOf="@+id/toLowerFormSpinnerLayout"
+                    app:helperTextEnabled="false"
+                    app:helperTextTextColor="@color/red"
+                    app:errorEnabled="true"
+                    app:errorTextColor="@color/red"
+                    app:errorIconTint="@color/red"
+                    app:errorIconDrawable="@drawable/ic_error">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/lowerSegmentInputData"

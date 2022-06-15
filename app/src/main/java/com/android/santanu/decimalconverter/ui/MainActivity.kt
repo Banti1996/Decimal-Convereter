@@ -4,12 +4,17 @@ import android.annotation.SuppressLint
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
+import android.content.res.ColorStateList
+import android.os.Build
 import android.os.Bundle
 import android.view.View
+import android.view.WindowManager
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.activity.viewModels
+import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.content.ContextCompat
+import androidx.core.content.ContextCompat.getColor
 import androidx.core.widget.doOnTextChanged
 import com.android.santanu.decimalconverter.R
 import com.android.santanu.decimalconverter.data.Converter
@@ -57,19 +62,33 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
 
     @SuppressLint("ClickableViewAccessibility")
     override fun onCreate(savedInstanceState: Bundle?) {
+        if (Build.VERSION.SDK_INT >= 21) {
+            val window = this.window
+            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
+            window.statusBarColor = ContextCompat.getColor(
+                this@MainActivity, R.color.teal_200
+            )
+        }
+
         supportActionBar?.hide()
         super.onCreate(savedInstanceState)
         mLayout = getViewDataBinding().apply {
             this.lifecycleOwner = this@MainActivity
         }
-        onUpperSegmentRefresh()
-        initializeSpinner()
+        this.onUpperSegmentRefresh()
+        this.onLowerSegmentRefresh()
+        this.initializeFirstTime()
+        this.initializeSpinner()
 
         if(mConverter == null) {
             mConverter = Converter()
         }
 
         clipboard  = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+
+        mLayout.upperSpinner.showSoftInputOnFocus = false
+        mLayout.lowerToSpinner.showSoftInputOnFocus = false
+        mLayout.lowerFormSpinner.showSoftInputOnFocus = false
 
 
         /*
@@ -93,16 +112,128 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
             this.onLowerSegmentRefresh()
         }
 
-        mLayout.upperSegmentInputData.doOnTextChanged { _, _, _, _ ->
-            /*Toast.makeText(this@MainActivity, "$text apply", Toast.LENGTH_SHORT).also {
-                it.show()
-            }*/
+        mLayout.upperSegmentInputData.doOnTextChanged { text, _, _, _ ->
+            if (!isActive) {
+                if (upperFormatData != null && upperFormatData!!.isNotEmpty()) {
+                    when (upperFormatData) {
+                        "Decimal" -> {
+                            if(mConverter!!.checkDecimalNumberFormat(text.toString())) {
+                                // mLayout.upperSegmentInputLayout.helperText = null
+                                mLayout.upperSegmentInputLayout.error = null
+
+                            } else {
+                                // mLayout.upperSegmentInputLayout.helperText = "Incorrect $upperFormatData Format"
+                                mLayout.upperSegmentInputLayout.error = "Incorrect $upperFormatData Format"
+
+                            }
+                        }
+                        "Binary" -> {
+                            if(mConverter!!.checkDecimalNumberFormat(text.toString())) {
+                                // mLayout.upperSegmentInputLayout.helperText = null
+                                mLayout.upperSegmentInputLayout.error = null
+
+                            } else {
+                                // mLayout.upperSegmentInputLayout.helperText = "Incorrect $upperFormatData Format"
+                                mLayout.upperSegmentInputLayout.error = "Incorrect $upperFormatData Format"
+
+                            }
+                        }
+                        "Octal" -> {
+                            if(mConverter!!.checkDecimalNumberFormat(text.toString())) {
+                                // mLayout.upperSegmentInputLayout.helperText = null
+                                mLayout.upperSegmentInputLayout.error = null
+
+                            } else {
+                                // mLayout.upperSegmentInputLayout.helperText = "Incorrect $upperFormatData Format"
+                                mLayout.upperSegmentInputLayout.error = "Incorrect $upperFormatData Format"
+
+                            }
+                        }
+                        "Hexadecimal" -> {
+                            if(mConverter!!.checkDecimalNumberFormat(text.toString())) {
+                                // mLayout.upperSegmentInputLayout.helperText = null
+                                mLayout.upperSegmentInputLayout.error = null
+
+                            } else {
+                                // mLayout.upperSegmentInputLayout.helperText = "Incorrect $upperFormatData Format"
+                                mLayout.upperSegmentInputLayout.error = "Incorrect $upperFormatData Format"
+
+                            }
+                        }
+                        else -> {
+                            Toast.makeText(this@MainActivity, "Something Went Wrong", Toast.LENGTH_SHORT).also {
+                                it.show()
+                            }
+                        }
+                    }
+                } else {
+                    Toast.makeText(this@MainActivity, "Select Base Format First", Toast.LENGTH_SHORT).also {
+                        it.show()
+                    }
+                }
+            }
         }
 
-        mLayout.lowerSegmentInputData.doOnTextChanged { _, _, _, _ ->
-            /*Toast.makeText(this@MainActivity, "$text apply", Toast.LENGTH_SHORT).also {
-                it.show()
-            }*/
+        mLayout.lowerSegmentInputData.doOnTextChanged { text, _, _, _ ->
+            if (isActive) {
+                if (lowerToFormatData.isNotEmpty() && lowerFormFormatData.isNotEmpty()) {
+                    when (lowerToFormatData) {
+                        "Decimal" -> {
+                            if(mConverter!!.checkDecimalNumberFormat(text.toString())) {
+                                // mLayout.lowerSegmentInputLayout.helperText = null
+                                mLayout.lowerSegmentInputLayout.error = null
+
+                            } else {
+                                // mLayout.lowerSegmentInputLayout.helperText = "Incorrect $lowerToFormatData Format"
+                                mLayout.lowerSegmentInputLayout.error = "Incorrect $lowerToFormatData Format"
+
+                            }
+                        }
+                        "Binary" -> {
+                            if(mConverter!!.checkDecimalNumberFormat(text.toString())) {
+                                // mLayout.lowerSegmentInputLayout.helperText = null
+                                mLayout.lowerSegmentInputLayout.error = null
+
+                            } else {
+                                // mLayout.lowerSegmentInputLayout.helperText = "Incorrect $lowerToFormatData Format"
+                                mLayout.lowerSegmentInputLayout.error = "Incorrect $lowerToFormatData Format"
+
+                            }
+                        }
+                        "Octal" -> {
+                            if(mConverter!!.checkDecimalNumberFormat(text.toString())) {
+                                // mLayout.lowerSegmentInputLayout.helperText = null
+                                mLayout.lowerSegmentInputLayout.error = null
+
+                            } else {
+                                // mLayout.lowerSegmentInputLayout.helperText = "Incorrect $lowerToFormatData Format"
+                                mLayout.lowerSegmentInputLayout.error = "Incorrect $lowerToFormatData Format"
+
+                            }
+                        }
+                        "Hexadecimal" -> {
+                            if(mConverter!!.checkDecimalNumberFormat(text.toString())) {
+                                // mLayout.lowerSegmentInputLayout.helperText = null
+                                mLayout.lowerSegmentInputLayout.error = null
+
+                            } else {
+                                // mLayout.lowerSegmentInputLayout.helperText = "Incorrect $lowerToFormatData Format"
+                                mLayout.lowerSegmentInputLayout.error = "Incorrect $lowerToFormatData Format"
+
+                            }
+                        }
+                        else -> {
+                            Toast.makeText(this@MainActivity, "Something Went Wrong", Toast.LENGTH_SHORT).also {
+                                it.show()
+                            }
+                        }
+                    }
+                } else {
+                    Toast.makeText(this@MainActivity, "Select Base Format First", Toast.LENGTH_SHORT).also {
+                        it.show()
+                    }
+                }
+            }
         }
 
         mLayout.swActive.setOnCheckedChangeListener { _, isChecked ->
@@ -182,10 +313,16 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
         }
 
         mLayout.convertButton.setOnClickListener {
-            // formatData = mLayout.upperSegmentInputData.text.toString() ?: null
 
             if (isActive) {
-                lowerSegmentDataProceed()
+                lowerSegmentInputData = mLayout.lowerSegmentInputData.text.toString()
+                if (lowerSegmentInputData.isNotEmpty()) {
+                    lowerSegmentDataProceed()
+                } else {
+                    Toast.makeText(this@MainActivity, "please enter $lowerToFormatData your value", Toast.LENGTH_SHORT).also {
+                        it.show()
+                    }
+                }
             } else {
                 if (upperFormatData != null && upperFormatData!!.isNotEmpty()) {
                     if (formateList.contains(upperFormatData)) {
@@ -243,7 +380,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
             ClipData.newPlainText("${mLayout.tvLowerOutputDataText.text.toString()} text", mLayout.tvLowerOutputData.text.toString()).also {
                 clipboard.setPrimaryClip(it)
             }
-            Toast.makeText(this@MainActivity, "${mLayout.tvLowerOutputDataText.text.toString()} Copy to Clipboard", Toast.LENGTH_SHORT).also {
+            Toast.makeText(this@MainActivity, "${mLayout.tvLowerOutputDataText.text.toString().replace(":", "")}Copy to Clipboard", Toast.LENGTH_SHORT).also {
                 it.show()
             }
         }
@@ -349,7 +486,6 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
     }
 
     private fun lowerSegmentDataProceed() {
-        lowerSegmentInputData = mLayout.lowerSegmentInputData.text.toString()
 
         if (lowerToFormatData == "Decimal") {
             if (lowerFormFormatData == "Decimal") {
@@ -596,14 +732,15 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
         mLayout.constraintLayoutBinaryUpperOutputText.visibility = View.INVISIBLE
         mLayout.constraintLayoutOctalUpperOutputText.visibility = View.INVISIBLE
         mLayout.constraintLayoutHexadecimalUpperOutputText.visibility = View.INVISIBLE
+
+        mLayout.upperSegmentInputLayout.error = null
     }
 
     private fun onLowerSegmentRefresh() {
         mLayout.lowerSegmentInputData.setText("")
-
         lowerSegmentInputData = ""
-
         mLayout.constraintLayoutLowerOutput.visibility = View.INVISIBLE
+        mLayout.lowerSegmentInputLayout.error = null
     }
 
     private fun initializeSpinner() {
@@ -616,6 +753,42 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
         mLayout.upperSpinner.setAdapter(spinnerAdapter)
         mLayout.lowerToSpinner.setAdapter(spinnerAdapter)
         mLayout.lowerFormSpinner.setAdapter(spinnerAdapter)
+    }
+
+    private fun initializeFirstTime() {
+        mLayout.tvLowerSegmentTextStatus.text = "Disable"
+        mLayout.tvLowerSegmentTextStatus.setTextColor(
+            ContextCompat.getColor(this@MainActivity, R.color.gray)
+        )
+        mLayout.tvUpperSegmentTextStatus.text = "Enable"
+        mLayout.tvUpperSegmentTextStatus.setTextColor(
+            ContextCompat.getColor(this@MainActivity, R.color.green)
+        )
+
+        mLayout.upperSpinner.isEnabled = true
+        mLayout.upperSpinner.isEnabled = true
+        mLayout.lowerToSpinner.isEnabled = false
+        mLayout.lowerFormSpinner.isEnabled = false
+        mLayout.lowerToSpinner.isClickable = false
+        mLayout.lowerFormSpinner.isClickable = false
+        mLayout.lowerSegmentInputData.isEnabled = false
+
+        mLayout.upperSegmentInputData.isClickable = true
+        mLayout.upperSegmentInputData.isEnabled = true
+        mLayout.upperSegmentInputData.isEnabled = true
+
+
+        mLayout.upperSegmentSpinnerLayout.isClickable = true
+        mLayout.upperSegmentSpinnerLayout.isEnabled = true
+        mLayout.upperSegmentInputLayout.isClickable = true
+        mLayout.upperSegmentInputLayout.isEnabled = true
+
+        mLayout.lowerSegmentInputLayout.isClickable = false
+        mLayout.lowerSegmentInputLayout.isEnabled = false
+        mLayout.toLowerToSpinnerLayout.isClickable = false
+        mLayout.toLowerToSpinnerLayout.isEnabled = false
+        mLayout.toLowerFormSpinnerLayout.isClickable = false
+        mLayout.toLowerFormSpinnerLayout.isEnabled = false
     }
 
 

@@ -160,11 +160,11 @@ class Converter {
         return isDecimalNumber
     }
     fun checkBinaryNumberFormat(binaryNumber: String): Boolean {
-        var isBinaryNumber = false
+        var isBinaryNumber = true
 
         for(charAtPos in binaryNumber) {
-            if(!(((charAtPos == '0') && (charAtPos == '1')) )) {
-                isBinaryNumber = true
+            if(!(((charAtPos == '0') || (charAtPos == '1')) )) {
+                isBinaryNumber = false
                 break
             }
         }

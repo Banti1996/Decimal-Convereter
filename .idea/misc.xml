@@ -3,8 +3,11 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="..\:/Users/santa/AndroidStudioProjects/DecimalConverter/app/src/main/res/layout/activity_main.xml" value="0.4074074074074074" />
+        <entry key="..\:/Users/santa/AndroidStudioProjects/DecimalConverter/app/src/main/res/layout/activity_main.xml" value="0.33" />
         <entry key="..\:/Users/santa/AndroidStudioProjects/DecimalConverter/app/src/main/res/layout/spinner_layout.xml" value="0.3546875" />
+        <entry key="..\:/Users/santa/AndroidStudioProjects/DecimalConverter/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.186" />
+        <entry key="..\:/Users/santa/AndroidStudioProjects/DecimalConverter/app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" value="0.3545" />
+        <entry key="..\:/Users/santa/AndroidStudioProjects/DecimalConverter/app/src/main/res/xml/text_inputa_lyout.xml" value="0.1" />
         <entry key="..\:/Users/santa/AppData/Local/Android/Sdk/platforms/android-32/data/res/layout/simple_list_item_1.xml" value="0.3546875" />
         <entry key="..\:/Users/santa/AppData/Local/Android/Sdk/platforms/android-32/data/res/layout/simple_list_item_2.xml" value="0.3546875" />
         <entry key="..\:/Users/santa/AppData/Local/Android/Sdk/platforms/android-32/data/res/layout/simple_spinner_dropdown_item.xml" value="0.3546875" />
