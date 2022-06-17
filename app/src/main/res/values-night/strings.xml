@@ -3,19 +3,23 @@
     <string name="app_name">Decimal Converter</string>
     <string name="binary">binary</string>
     <string name="decimal_to_binary">Decimal To Binary</string>
-    <string name="select_base_formate">Select Number Format</string>
-    <string name="select">Select</string>
+    <string name="select_base_formate">Select number format</string>
+    <string name="select">select</string>
     <string name="convert">Convert</string>
     <string name="txt">This is a basic number format converter application [ Decimal, Binary, Octal, Hexadecimal ]</string>
     <string name="hexadecimal_txt">Hexadecimal : </string>
     <string name="octal_txt">Octal : </string>
     <string name="decimal_txt">Decimal : </string>
     <string name="binary_txt">Binary : </string>
-    <string name="enter_your_format_value">Enter your format value</string>
+    <string name="enter_your_format_value">Enter your value</string>
     <string name="upper_segment_status">Upper Segment Status : </string>
     <string name="enable">Enable</string>
     <string name="lower_segment_status">Lower Segment Status : </string>
     <string name="disable">Disable</string>
     <string name="to">To</string>
     <string name="form">Form</string>
+    <string name="same_format">Both selection are same, select different format</string>
+    <string name="went_wrong">Something went wrong</string>
+    <string name="reset">restart application</string>
+    <string name="went_wrong_restart">something went wrong, restart your application</string>
 </resources>

@@ -377,4 +377,21 @@ class Converter {
         )
     }
 
+    fun isDecimalNumber(decimal: String): Boolean {
+        val regex = "^[0-9][0-9]*\$".toRegex()
+        return decimal.matches(regex)
+    }
+    fun isBinaryNumber(binary: String): Boolean {
+        val regex = "^[0-1][0-1]*\$".toRegex()
+        return binary.matches(regex)
+    }
+    fun isOctalNumber(octal: String): Boolean {
+        val regex = "^[0-7][0-7]*\$".toRegex()
+        return octal.matches(regex)
+    }
+    fun isHexadecimalNumber(hexadecimal: String): Boolean {
+        val regex = "^[0-9A-Fa-f]+\$".toRegex()
+        return hexadecimal.matches(regex)
+    }
+
 }

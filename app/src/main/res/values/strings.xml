@@ -18,4 +18,8 @@
     <string name="disable">Disable</string>
     <string name="to">To</string>
     <string name="form">Form</string>
+    <string name="same_format">Both selection are same, select different format</string>
+    <string name="went_wrong">Something went wrong</string>
+    <string name="reset">restart application</string>
+    <string name="went_wrong_restart">something went wrong, restart your application</string>
 </resources>
