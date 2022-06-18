@@ -25,6 +25,8 @@ import com.android.santanu.decimalconverter.vm.MainViewModel
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputLayout.END_ICON_CUSTOM
 import com.google.android.material.textfield.TextInputLayout.END_ICON_NONE
+import java.util.*
+import kotlin.collections.ArrayList
 import kotlin.system.exitProcess
 
 
@@ -87,8 +89,6 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
         */
 
         this.initializeSpinner()
-        // this.onUpperSegmentRefresh()
-        // this.onLowerSegmentRefresh()
         this.initializeFirstTime()
 
         if(mConverter == null) {
@@ -133,8 +133,8 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
                                     mLayout.upperSegmentInputLayout.error = null
                                     mLayout.upperSegmentInputLayout.isEndIconVisible = true
                                 } else {
-                                    // mLayout.upperSegmentInputLayout.helperText = "incorrect $upperFormatData number format"
-                                    mLayout.upperSegmentInputLayout.error = "incorrect $upperFormatData number format"
+                                    // mLayout.upperSegmentInputLayout.helperText = "incorrect ${upperFormatData.lowercase(Locale.getDefault())} number format"
+                                    mLayout.upperSegmentInputLayout.error = "incorrect ${upperFormatData.lowercase(Locale.getDefault())} number format"
                                     mLayout.upperSegmentInputLayout.isEndIconVisible = false
 
                                 }
@@ -145,8 +145,8 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
                                     mLayout.upperSegmentInputLayout.error = null
                                     mLayout.upperSegmentInputLayout.isEndIconVisible = true
                                 } else {
-                                    // mLayout.upperSegmentInputLayout.helperText = "incorrect $upperFormatData number format"
-                                    mLayout.upperSegmentInputLayout.error = "incorrect $upperFormatData number format"
+                                    // mLayout.upperSegmentInputLayout.helperText = "incorrect ${upperFormatData.lowercase(Locale.getDefault())} number format"
+                                    mLayout.upperSegmentInputLayout.error = "incorrect ${upperFormatData.lowercase(Locale.getDefault())} number format"
                                     mLayout.upperSegmentInputLayout.isEndIconVisible = false
 
                                 }
@@ -157,8 +157,8 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
                                     mLayout.upperSegmentInputLayout.error = null
                                     mLayout.upperSegmentInputLayout.isEndIconVisible = true
                                 } else {
-                                    // mLayout.upperSegmentInputLayout.helperText = "incorrect $upperFormatData number format"
-                                    mLayout.upperSegmentInputLayout.error = "incorrect $upperFormatData number format"
+                                    // mLayout.upperSegmentInputLayout.helperText = "incorrect ${upperFormatData.lowercase(Locale.getDefault())} number format"
+                                    mLayout.upperSegmentInputLayout.error = "incorrect ${upperFormatData.lowercase(Locale.getDefault())} number format"
                                     mLayout.upperSegmentInputLayout.isEndIconVisible = false
 
                                 }
@@ -169,8 +169,8 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
                                     mLayout.upperSegmentInputLayout.error = null
                                     mLayout.upperSegmentInputLayout.isEndIconVisible = true
                                 } else {
-                                    // mLayout.upperSegmentInputLayout.helperText = "incorrect $upperFormatData number format"
-                                    mLayout.upperSegmentInputLayout.error = "incorrect $upperFormatData number format"
+                                    // mLayout.upperSegmentInputLayout.helperText = "incorrect ${upperFormatData.lowercase(Locale.getDefault())} number format"
+                                    mLayout.upperSegmentInputLayout.error = "incorrect ${upperFormatData.lowercase(Locale.getDefault())} number format"
                                     mLayout.upperSegmentInputLayout.isEndIconVisible = false
 
                                 }
@@ -194,8 +194,8 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
             if (isActive) {
                 if (lowerToFormatData.isNotEmpty()) {
                     if(text.toString().isEmpty()) {
-                        mLayout.upperSegmentInputLayout.error = null
-                        mLayout.upperSegmentInputLayout.isEndIconVisible = false
+                        mLayout.lowerSegmentInputLayout.error = null
+                        mLayout.lowerSegmentInputLayout.isEndIconVisible = false
                     } else {
                         when (lowerToFormatData) {
                             "Decimal" -> {
@@ -203,7 +203,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
                                     mLayout.lowerSegmentInputLayout.error = null
                                     mLayout.lowerSegmentInputLayout.isEndIconVisible = true
                                 } else {
-                                    mLayout.lowerSegmentInputLayout.error = "incorrect $lowerToFormatData number format"
+                                    mLayout.lowerSegmentInputLayout.error = "incorrect ${lowerToFormatData.lowercase(Locale.getDefault())} number format"
                                     mLayout.lowerSegmentInputLayout.isEndIconVisible = false
                                 }
                             }
@@ -212,7 +212,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
                                     mLayout.lowerSegmentInputLayout.error = null
                                     mLayout.lowerSegmentInputLayout.isEndIconVisible = true
                                 } else {
-                                    mLayout.lowerSegmentInputLayout.error = "incorrect $lowerToFormatData number format"
+                                    mLayout.lowerSegmentInputLayout.error = "incorrect ${lowerToFormatData.lowercase(Locale.getDefault())} number format"
                                     mLayout.lowerSegmentInputLayout.isEndIconVisible = false
                                 }
                             }
@@ -221,7 +221,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
                                     mLayout.lowerSegmentInputLayout.error = null
                                     mLayout.lowerSegmentInputLayout.isEndIconVisible = true
                                 } else {
-                                    mLayout.lowerSegmentInputLayout.error = "incorrect $lowerToFormatData number format"
+                                    mLayout.lowerSegmentInputLayout.error = "incorrect ${lowerToFormatData.lowercase(Locale.getDefault())} number format"
                                     mLayout.lowerSegmentInputLayout.isEndIconVisible = false
                                 }
                             }
@@ -230,7 +230,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
                                     mLayout.lowerSegmentInputLayout.error = null
                                     mLayout.lowerSegmentInputLayout.isEndIconVisible = true
                                 } else {
-                                    mLayout.lowerSegmentInputLayout.error = "incorrect $lowerToFormatData number format"
+                                    mLayout.lowerSegmentInputLayout.error = "incorrect ${lowerToFormatData.lowercase(Locale.getDefault())} number format"
                                     mLayout.lowerSegmentInputLayout.isEndIconVisible = false
                                 }
                             }
@@ -275,7 +275,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
                             if (lowerSegmentInputData.isNotEmpty()) {
                                 lowerSegmentDataProceed()
                             } else {
-                                Toast.makeText(this@MainActivity, "$lowerToFormatData data field empty, please enter your data", Toast.LENGTH_SHORT).also {
+                                Toast.makeText(this@MainActivity, "${lowerToFormatData.lowercase(Locale.getDefault())} data field empty, please enter your data", Toast.LENGTH_SHORT).also {
                                     it.show()
                                 }
                             }
@@ -315,7 +315,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
             ClipData.newPlainText("decimal text", mLayout.tvDecimalUpperOutputData.text.toString()).also {
                 clipboard.setPrimaryClip(it)
             }
-            Toast.makeText(this@MainActivity, "Decimal Copy to Clipboard", Toast.LENGTH_SHORT).also {
+            Toast.makeText(this@MainActivity, "decimal data copy to clipboard", Toast.LENGTH_SHORT).also {
                 it.show()
             }
         }
@@ -324,7 +324,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
             ClipData.newPlainText("binary text", mLayout.tvBinaryUpperOutputData.text.toString()).also {
                 clipboard.setPrimaryClip(it)
             }
-            Toast.makeText(this@MainActivity, "Binary Copy to Clipboard", Toast.LENGTH_SHORT).also {
+            Toast.makeText(this@MainActivity, "binary data copy to clipboard", Toast.LENGTH_SHORT).also {
                 it.show()
             }
         }
@@ -333,7 +333,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
             ClipData.newPlainText("octal text", mLayout.tvOctalUpperOutputData.text.toString()).also {
                 clipboard.setPrimaryClip(it)
             }
-            Toast.makeText(this@MainActivity, "Octal Copy to Clipboard", Toast.LENGTH_SHORT).also {
+            Toast.makeText(this@MainActivity, "octal data copy to clipboard", Toast.LENGTH_SHORT).also {
                 it.show()
             }
         }
@@ -342,7 +342,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
             ClipData.newPlainText("hexadecimal text", mLayout.tvHexadecimalUpperOutputData.text.toString()).also {
                 clipboard.setPrimaryClip(it)
             }
-            Toast.makeText(this@MainActivity, "Hexadecimal Copy to Clipboard", Toast.LENGTH_SHORT).also {
+            Toast.makeText(this@MainActivity, "hexadecimal data copy to clipboard", Toast.LENGTH_SHORT).also {
                 it.show()
             }
         }
@@ -351,7 +351,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
             ClipData.newPlainText("${mLayout.tvLowerOutputDataText.text.toString()} text", mLayout.tvLowerOutputData.text.toString()).also {
                 clipboard.setPrimaryClip(it)
             }
-            Toast.makeText(this@MainActivity, "$lowerFormFormatData Copy to Clipboard", Toast.LENGTH_SHORT).also {
+            Toast.makeText(this@MainActivity, "${lowerFormFormatData.lowercase(Locale.getDefault())} data copy to clipboard", Toast.LENGTH_SHORT).also {
                 it.show()
             }
         }
@@ -364,11 +364,11 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
                         ClipData.newPlainText(upperFormatData, copyText).also {
                             clipboard.setPrimaryClip(it)
                         }
-                        Toast.makeText(this@MainActivity, "Decimal Copy to Clipboard", Toast.LENGTH_SHORT).also {
+                        Toast.makeText(this@MainActivity, "${upperFormatData.lowercase(Locale.getDefault())} data copy to clipboard", Toast.LENGTH_SHORT).also {
                             it.show()
                         }
                     } else {
-                        Toast.makeText(this@MainActivity, "sorry, can't copy content. $upperFormatData value is empty", Toast.LENGTH_SHORT).also {
+                        Toast.makeText(this@MainActivity, "sorry, can't copy content. ${upperFormatData.lowercase(Locale.getDefault())} value is empty", Toast.LENGTH_SHORT).also {
                             it.show()
                         }
                     }
@@ -388,11 +388,11 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
                         ClipData.newPlainText(lowerToFormatData, copyText).also {
                             clipboard.setPrimaryClip(it)
                         }
-                        Toast.makeText(this@MainActivity, "$lowerToFormatData Copy to Clipboard", Toast.LENGTH_SHORT).also {
+                        Toast.makeText(this@MainActivity, "${lowerToFormatData.lowercase(Locale.getDefault())} data copy to clipboard", Toast.LENGTH_SHORT).also {
                             it.show()
                         }
                     } else {
-                        Toast.makeText(this@MainActivity, "sorry, can't copy content. $lowerToFormatData value is empty", Toast.LENGTH_SHORT).also {
+                        Toast.makeText(this@MainActivity, "sorry, can't copy content. ${lowerToFormatData.lowercase(Locale.getDefault())} value is empty", Toast.LENGTH_SHORT).also {
                             it.show()
                         }
                     }
@@ -422,7 +422,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
                         upperSegmentOctalData = mConverter!!.convertDecimalToOctal(upperSegmentDecimalData.toLong())
                         upperSegmentHexadecimalData = mConverter!!.convertDecimalToHexadecimal(upperSegmentDecimalData.toLong())
                     } catch (ex: Exception) {
-                        Toast.makeText(this@MainActivity, "your entered $upperFormatData value is cross it's limit, please cheek your value", Toast.LENGTH_SHORT).also {
+                        Toast.makeText(this@MainActivity, "your entered ${upperFormatData.lowercase(Locale.getDefault())} value is cross it's limit, please cheek your value", Toast.LENGTH_SHORT).also {
                             it.show()
                         }
                         Log.d(TAG, "MainActivity{} : upperSegmentDataProceed() >>" +
@@ -431,12 +431,12 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
                     }
                     updateUpperSegmentLayoutData(upperFormatData)
                 } else {
-                    Toast.makeText(this@MainActivity, "incorrect $upperFormatData Data, please check entered your data", Toast.LENGTH_SHORT).also {
+                    Toast.makeText(this@MainActivity, "incorrect ${upperFormatData.lowercase(Locale.getDefault())} Data, please check entered your data", Toast.LENGTH_SHORT).also {
                         it.show()
                     }
                 }
             } else {
-                Toast.makeText(this@MainActivity, "$upperFormatData data field empty, please enter your data", Toast.LENGTH_SHORT).also {
+                Toast.makeText(this@MainActivity, "${upperFormatData.lowercase(Locale.getDefault())} data field empty, please enter your data", Toast.LENGTH_SHORT).also {
                     it.show()
                 }
             }
@@ -449,7 +449,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
                         upperSegmentOctalData = mConverter!!.convertBinaryToOctal(upperSegmentBinaryData.toLong())
                         upperSegmentHexadecimalData = mConverter!!.convertBinaryToHexadecimal(upperSegmentBinaryData.toLong())
                     } catch (ex: Exception) {
-                        Toast.makeText(this@MainActivity, "your entered $upperFormatData value is cross it's limit, please cheek your value", Toast.LENGTH_SHORT).also {
+                        Toast.makeText(this@MainActivity, "your entered ${upperFormatData.lowercase(Locale.getDefault())} value is cross it's limit, please cheek your value", Toast.LENGTH_SHORT).also {
                             it.show()
                         }
                         Log.d(TAG, "MainActivity{} : upperSegmentDataProceed() >>" +
@@ -458,12 +458,12 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
                     }
                     updateUpperSegmentLayoutData(upperFormatData)
                 } else {
-                    Toast.makeText(this@MainActivity, "incorrect $upperFormatData Data, please check entered your data", Toast.LENGTH_SHORT).also {
+                    Toast.makeText(this@MainActivity, "incorrect ${upperFormatData.lowercase(Locale.getDefault())} Data, please check entered your data", Toast.LENGTH_SHORT).also {
                         it.show()
                     }
                 }
             } else {
-                Toast.makeText(this@MainActivity, "$upperFormatData data field empty, please enter your data", Toast.LENGTH_SHORT).also {
+                Toast.makeText(this@MainActivity, "${upperFormatData.lowercase(Locale.getDefault())} data field empty, please enter your data", Toast.LENGTH_SHORT).also {
                     it.show()
                 }
             }
@@ -476,7 +476,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
                         upperSegmentBinaryData = mConverter!!.convertOctalToBinary(upperSegmentOctalData.toLong()).toString()
                         upperSegmentHexadecimalData = mConverter!!.convertOctalToHexadecimal(upperSegmentOctalData.toLong())
                     } catch (ex: Exception) {
-                        Toast.makeText(this@MainActivity, "your entered $upperFormatData value is cross it's limit, please cheek your value", Toast.LENGTH_SHORT).also {
+                        Toast.makeText(this@MainActivity, "your entered ${upperFormatData.lowercase(Locale.getDefault())} value is cross it's limit, please cheek your value", Toast.LENGTH_SHORT).also {
                             it.show()
                         }
                         Log.d(TAG, "MainActivity{} : upperSegmentDataProceed() >>" +
@@ -485,12 +485,12 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
                     }
                     updateUpperSegmentLayoutData(upperFormatData)
                 } else {
-                    Toast.makeText(this@MainActivity, "incorrect $upperFormatData Data, please check entered your data", Toast.LENGTH_SHORT).also {
+                    Toast.makeText(this@MainActivity, "incorrect ${upperFormatData.lowercase(Locale.getDefault())} Data, please check entered your data", Toast.LENGTH_SHORT).also {
                         it.show()
                     }
                 }
             } else {
-                Toast.makeText(this@MainActivity, "$upperFormatData data field empty, please enter your data", Toast.LENGTH_SHORT).also {
+                Toast.makeText(this@MainActivity, "${upperFormatData.lowercase(Locale.getDefault())} data field empty, please enter your data", Toast.LENGTH_SHORT).also {
                     it.show()
                 }
             }
@@ -503,7 +503,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
                         upperSegmentBinaryData = mConverter!!.convertHexadecimalToBinary(upperSegmentHexadecimalData)
                         upperSegmentOctalData = mConverter!!.convertHexadecimalToOctal(upperSegmentHexadecimalData)
                     } catch (ex: Exception) {
-                        Toast.makeText(this@MainActivity, "your entered $upperFormatData value is cross it's limit, please cheek your value", Toast.LENGTH_SHORT).also {
+                        Toast.makeText(this@MainActivity, "your entered ${upperFormatData.lowercase(Locale.getDefault())} value is cross it's limit, please cheek your value", Toast.LENGTH_SHORT).also {
                             it.show()
                         }
                         Log.d(TAG, "MainActivity{} : upperSegmentDataProceed() >>" +
@@ -513,12 +513,12 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
 
                     updateUpperSegmentLayoutData(upperFormatData)
                 } else {
-                    Toast.makeText(this@MainActivity, "incorrect $upperFormatData Data, please check entered your data", Toast.LENGTH_SHORT).also {
+                    Toast.makeText(this@MainActivity, "incorrect ${upperFormatData.lowercase(Locale.getDefault())} Data, please check entered your data", Toast.LENGTH_SHORT).also {
                         it.show()
                     }
                 }
             } else {
-                Toast.makeText(this@MainActivity, "$upperFormatData data field empty, please enter your data", Toast.LENGTH_SHORT).also {
+                Toast.makeText(this@MainActivity, "${upperFormatData.lowercase(Locale.getDefault())} data field empty, please enter your data", Toast.LENGTH_SHORT).also {
                     it.show()
                 }
             }
@@ -552,7 +552,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
                             lowerSegmentInputData.toLong()
                         )
                     } catch (ex: Exception) {
-                        Toast.makeText(this@MainActivity, "your entered $lowerToFormatData value is cross it's limit, please cheek your value", Toast.LENGTH_SHORT).also {
+                        Toast.makeText(this@MainActivity, "your entered ${lowerToFormatData.lowercase(Locale.getDefault())} value is cross it's limit, please cheek your value", Toast.LENGTH_SHORT).also {
                             it.show()
                         }
                         Log.d(TAG, "MainActivity{} : upperSegmentDataProceed() >>" +
@@ -562,7 +562,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
                     mLayout.tvLowerOutputDataText.text = "$lowerFormFormatData : "
                     mLayout.constraintLayoutLowerOutput.visibility = View.VISIBLE
                 } else {
-                    Toast.makeText(this@MainActivity, "incorrect $lowerToFormatData number data", Toast.LENGTH_SHORT).also {
+                    Toast.makeText(this@MainActivity, "incorrect ${lowerToFormatData.lowercase(Locale.getDefault())} number data", Toast.LENGTH_SHORT).also {
                         it.show()
                     }
                 }
@@ -573,7 +573,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
                             lowerSegmentInputData.toLong()
                         )
                     } catch (ex: Exception) {
-                        Toast.makeText(this@MainActivity, "your entered $lowerToFormatData value is cross it's limit, please cheek your value", Toast.LENGTH_SHORT).also {
+                        Toast.makeText(this@MainActivity, "your entered ${lowerToFormatData.lowercase(Locale.getDefault())} value is cross it's limit, please cheek your value", Toast.LENGTH_SHORT).also {
                             it.show()
                         }
                         Log.d(TAG, "MainActivity{} : upperSegmentDataProceed() >>" +
@@ -583,7 +583,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
                     mLayout.tvLowerOutputDataText.text = "$lowerFormFormatData : "
                     mLayout.constraintLayoutLowerOutput.visibility = View.VISIBLE
                 } else {
-                    Toast.makeText(this@MainActivity, "incorrect $lowerToFormatData number data", Toast.LENGTH_SHORT).also {
+                    Toast.makeText(this@MainActivity, "incorrect ${lowerToFormatData.lowercase(Locale.getDefault())} number data", Toast.LENGTH_SHORT).also {
                         it.show()
                     }
                 }
@@ -594,7 +594,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
                             lowerSegmentInputData.toLong()
                         )
                     } catch (ex: Exception) {
-                        Toast.makeText(this@MainActivity, "your entered $lowerToFormatData value is cross it's limit, please cheek your value", Toast.LENGTH_SHORT).also {
+                        Toast.makeText(this@MainActivity, "your entered ${lowerToFormatData.lowercase(Locale.getDefault())} value is cross it's limit, please cheek your value", Toast.LENGTH_SHORT).also {
                             it.show()
                         }
                         Log.d(TAG, "MainActivity{} : upperSegmentDataProceed() >>" +
@@ -604,7 +604,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
                     mLayout.tvLowerOutputDataText.text = "$lowerFormFormatData : "
                     mLayout.constraintLayoutLowerOutput.visibility = View.VISIBLE
                 } else {
-                    Toast.makeText(this@MainActivity, "incorrect $lowerToFormatData number data", Toast.LENGTH_SHORT).also {
+                    Toast.makeText(this@MainActivity, "incorrect ${lowerToFormatData.lowercase(Locale.getDefault())} number data", Toast.LENGTH_SHORT).also {
                         it.show()
                     }
                 }
@@ -621,7 +621,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
                             lowerSegmentInputData.toLong()
                         )
                     } catch (ex: Exception) {
-                        Toast.makeText(this@MainActivity, "your entered $lowerToFormatData value is cross it's limit, please cheek your value", Toast.LENGTH_SHORT).also {
+                        Toast.makeText(this@MainActivity, "your entered ${lowerToFormatData.lowercase(Locale.getDefault())} value is cross it's limit, please cheek your value", Toast.LENGTH_SHORT).also {
                             it.show()
                         }
                         Log.d(TAG, "MainActivity{} : upperSegmentDataProceed() >>" +
@@ -631,7 +631,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
                     mLayout.tvLowerOutputDataText.text = "$lowerFormFormatData : "
                     mLayout.constraintLayoutLowerOutput.visibility = View.VISIBLE
                 } else {
-                    Toast.makeText(this@MainActivity, "incorrect $lowerToFormatData number data", Toast.LENGTH_SHORT).also {
+                    Toast.makeText(this@MainActivity, "incorrect ${lowerToFormatData.lowercase(Locale.getDefault())} number data", Toast.LENGTH_SHORT).also {
                         it.show()
                     }
                 }
@@ -646,7 +646,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
                             lowerSegmentInputData.toLong()
                         )
                     } catch (ex: Exception) {
-                        Toast.makeText(this@MainActivity, "your entered $lowerToFormatData value is cross it's limit, please cheek your value", Toast.LENGTH_SHORT).also {
+                        Toast.makeText(this@MainActivity, "your entered ${lowerToFormatData.lowercase(Locale.getDefault())} value is cross it's limit, please cheek your value", Toast.LENGTH_SHORT).also {
                             it.show()
                         }
                         Log.d(TAG, "MainActivity{} : upperSegmentDataProceed() >>" +
@@ -656,7 +656,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
                     mLayout.tvLowerOutputDataText.text = "$lowerFormFormatData : "
                     mLayout.constraintLayoutLowerOutput.visibility = View.VISIBLE
                 } else {
-                    Toast.makeText(this@MainActivity, "incorrect $lowerToFormatData number data", Toast.LENGTH_SHORT).also {
+                    Toast.makeText(this@MainActivity, "incorrect ${lowerToFormatData.lowercase(Locale.getDefault())} number data", Toast.LENGTH_SHORT).also {
                         it.show()
                     }
                 }
@@ -667,7 +667,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
                             lowerSegmentInputData.toLong()
                         )
                     } catch (ex: Exception) {
-                        Toast.makeText(this@MainActivity, "your entered $lowerToFormatData value is cross it's limit, please cheek your value", Toast.LENGTH_SHORT).also {
+                        Toast.makeText(this@MainActivity, "your entered ${lowerToFormatData.lowercase(Locale.getDefault())} value is cross it's limit, please cheek your value", Toast.LENGTH_SHORT).also {
                             it.show()
                         }
                         Log.d(TAG, "MainActivity{} : upperSegmentDataProceed() >>" +
@@ -677,7 +677,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
                     mLayout.tvLowerOutputDataText.text = "$lowerFormFormatData : "
                     mLayout.constraintLayoutLowerOutput.visibility = View.VISIBLE
                 } else {
-                    Toast.makeText(this@MainActivity, "incorrect $lowerToFormatData number data", Toast.LENGTH_SHORT).also {
+                    Toast.makeText(this@MainActivity, "incorrect ${lowerToFormatData.lowercase(Locale.getDefault())} number data", Toast.LENGTH_SHORT).also {
                         it.show()
                     }
                 }
@@ -694,7 +694,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
                             lowerSegmentInputData.toLong()
                         )
                     } catch (ex: Exception) {
-                        Toast.makeText(this@MainActivity, "your entered $lowerToFormatData value is cross it's limit, please cheek your value", Toast.LENGTH_SHORT).also {
+                        Toast.makeText(this@MainActivity, "your entered ${lowerToFormatData.lowercase(Locale.getDefault())} value is cross it's limit, please cheek your value", Toast.LENGTH_SHORT).also {
                             it.show()
                         }
                         Log.d(TAG, "MainActivity{} : upperSegmentDataProceed() >>" +
@@ -704,7 +704,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
                     mLayout.tvLowerOutputDataText.text = "$lowerFormFormatData : "
                     mLayout.constraintLayoutLowerOutput.visibility = View.VISIBLE
                 } else {
-                    Toast.makeText(this@MainActivity, "incorrect $lowerToFormatData number data", Toast.LENGTH_SHORT).also {
+                    Toast.makeText(this@MainActivity, "incorrect ${lowerToFormatData.lowercase(Locale.getDefault())} number data", Toast.LENGTH_SHORT).also {
                         it.show()
                     }
                 }
@@ -715,7 +715,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
                             lowerSegmentInputData.toLong()
                         )
                     } catch (ex: Exception) {
-                        Toast.makeText(this@MainActivity, "your entered $lowerToFormatData value is cross it's limit, please cheek your value", Toast.LENGTH_SHORT).also {
+                        Toast.makeText(this@MainActivity, "your entered ${lowerToFormatData.lowercase(Locale.getDefault())} value is cross it's limit, please cheek your value", Toast.LENGTH_SHORT).also {
                             it.show()
                         }
                         Log.d(TAG, "MainActivity{} : upperSegmentDataProceed() >>" +
@@ -725,7 +725,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
                     mLayout.tvLowerOutputDataText.text = "$lowerFormFormatData : "
                     mLayout.constraintLayoutLowerOutput.visibility = View.VISIBLE
                 } else {
-                    Toast.makeText(this@MainActivity, "incorrect $lowerToFormatData number data", Toast.LENGTH_SHORT).also {
+                    Toast.makeText(this@MainActivity, "incorrect ${lowerToFormatData.lowercase(Locale.getDefault())} number data", Toast.LENGTH_SHORT).also {
                         it.show()
                     }
                 }
@@ -740,7 +740,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
                             lowerSegmentInputData.toLong()
                         )
                     } catch (ex: Exception) {
-                        Toast.makeText(this@MainActivity, "your entered $lowerToFormatData value is cross it's limit, please cheek your value", Toast.LENGTH_SHORT).also {
+                        Toast.makeText(this@MainActivity, "your entered ${lowerToFormatData.lowercase(Locale.getDefault())} value is cross it's limit, please cheek your value", Toast.LENGTH_SHORT).also {
                             it.show()
                         }
                         Log.d(TAG, "MainActivity{} : upperSegmentDataProceed() >>" +
@@ -750,7 +750,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
                     mLayout.tvLowerOutputDataText.text = "$lowerFormFormatData : "
                     mLayout.constraintLayoutLowerOutput.visibility = View.VISIBLE
                 } else {
-                    Toast.makeText(this@MainActivity, "incorrect $lowerToFormatData number data", Toast.LENGTH_SHORT).also {
+                    Toast.makeText(this@MainActivity, "incorrect ${lowerToFormatData.lowercase(Locale.getDefault())} number data", Toast.LENGTH_SHORT).also {
                         it.show()
                     }
                 }
@@ -767,7 +767,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
                             lowerSegmentInputData
                         )
                     } catch (ex: Exception) {
-                        Toast.makeText(this@MainActivity, "your entered $lowerToFormatData value is cross it's limit, please cheek your value", Toast.LENGTH_SHORT).also {
+                        Toast.makeText(this@MainActivity, "your entered ${lowerToFormatData.lowercase(Locale.getDefault())} value is cross it's limit, please cheek your value", Toast.LENGTH_SHORT).also {
                             it.show()
                         }
                         Log.d(TAG, "MainActivity{} : upperSegmentDataProceed() >>" +
@@ -777,7 +777,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
                     mLayout.tvLowerOutputDataText.text = "$lowerFormFormatData : "
                     mLayout.constraintLayoutLowerOutput.visibility = View.VISIBLE
                 } else {
-                    Toast.makeText(this@MainActivity, "incorrect $lowerToFormatData number data", Toast.LENGTH_SHORT).also {
+                    Toast.makeText(this@MainActivity, "incorrect ${lowerToFormatData.lowercase(Locale.getDefault())} number data", Toast.LENGTH_SHORT).also {
                         it.show()
                     }
                 }
@@ -788,7 +788,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
                             lowerSegmentInputData
                         )
                     } catch (ex: Exception) {
-                        Toast.makeText(this@MainActivity, "your entered $lowerToFormatData value is cross it's limit, please cheek your value", Toast.LENGTH_SHORT).also {
+                        Toast.makeText(this@MainActivity, "your entered ${lowerToFormatData.lowercase(Locale.getDefault())} value is cross it's limit, please cheek your value", Toast.LENGTH_SHORT).also {
                             it.show()
                         }
                         Log.d(TAG, "MainActivity{} : upperSegmentDataProceed() >>" +
@@ -798,7 +798,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
                     mLayout.tvLowerOutputDataText.text = "$lowerFormFormatData : "
                     mLayout.constraintLayoutLowerOutput.visibility = View.VISIBLE
                 } else {
-                    Toast.makeText(this@MainActivity, "incorrect $lowerToFormatData number data", Toast.LENGTH_SHORT).also {
+                    Toast.makeText(this@MainActivity, "incorrect ${lowerToFormatData.lowercase(Locale.getDefault())} number data", Toast.LENGTH_SHORT).also {
                         it.show()
                     }
                 }
@@ -809,7 +809,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
                             lowerSegmentInputData
                         )
                     } catch (ex: Exception) {
-                        Toast.makeText(this@MainActivity, "your entered $lowerToFormatData value is cross it's limit, please cheek your value", Toast.LENGTH_SHORT).also {
+                        Toast.makeText(this@MainActivity, "your entered ${lowerToFormatData.lowercase(Locale.getDefault())} value is cross it's limit, please cheek your value", Toast.LENGTH_SHORT).also {
                             it.show()
                         }
                         Log.d(TAG, "MainActivity{} : upperSegmentDataProceed() >>" +
@@ -819,7 +819,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
                     mLayout.tvLowerOutputDataText.text = "$lowerFormFormatData : "
                     mLayout.constraintLayoutLowerOutput.visibility = View.VISIBLE
                 } else {
-                    Toast.makeText(this@MainActivity, "incorrect $lowerToFormatData number data", Toast.LENGTH_SHORT).also {
+                    Toast.makeText(this@MainActivity, "incorrect ${lowerToFormatData.lowercase(Locale.getDefault())} number data", Toast.LENGTH_SHORT).also {
                         it.show()
                     }
                 }
