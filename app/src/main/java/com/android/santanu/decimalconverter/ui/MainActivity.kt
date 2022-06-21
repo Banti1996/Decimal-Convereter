@@ -4,7 +4,6 @@ import android.annotation.SuppressLint
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
-import android.content.res.ColorStateList
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
@@ -13,18 +12,17 @@ import android.view.WindowManager
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.activity.viewModels
-import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.content.ContextCompat
-import androidx.core.content.ContextCompat.getColor
 import androidx.core.widget.doOnTextChanged
 import com.android.santanu.decimalconverter.R
-import com.android.santanu.decimalconverter.data.Converter
+import com.android.santanu.decimalconverter.data.FractionNumberConverter
+import com.android.santanu.decimalconverter.data.GeneralNumberConverter
+import com.android.santanu.decimalconverter.data.NumberConverter
+import com.android.santanu.decimalconverter.data.NumberFormatUtils
 import com.android.santanu.decimalconverter.databinding.ActivityMainBinding
 import com.android.santanu.decimalconverter.ui.base.BaseActivity
 import com.android.santanu.decimalconverter.vm.MainViewModel
 import com.google.android.material.snackbar.Snackbar
-import com.google.android.material.textfield.TextInputLayout.END_ICON_CUSTOM
-import com.google.android.material.textfield.TextInputLayout.END_ICON_NONE
 import java.util.*
 import kotlin.collections.ArrayList
 import kotlin.system.exitProcess
@@ -59,7 +57,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
 
     private var isActive: Boolean = false
 
-    private var mConverter: Converter? = null
+    private var mNumberConverter: NumberConverter? = null
 
     private lateinit var clipboard : ClipboardManager
 
@@ -91,8 +89,8 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
         this.initializeSpinner()
         this.initializeFirstTime()
 
-        if(mConverter == null) {
-            mConverter = Converter()
+        if(mNumberConverter == null) {
+            mNumberConverter = NumberConverter()
         }
 
         clipboard  = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
@@ -128,7 +126,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
                     } else {
                         when (upperFormatData) {
                             "Decimal" -> {
-                                if(mConverter!!.isDecimalNumber(text.toString())) {
+                                if(mNumberConverter!!.isDecimalNumber(text.toString())) {
                                     // mLayout.upperSegmentInputLayout.helperText = null
                                     mLayout.upperSegmentInputLayout.error = null
                                     mLayout.upperSegmentInputLayout.isEndIconVisible = true
@@ -140,7 +138,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
                                 }
                             }
                             "Binary" -> {
-                                if(mConverter!!.isBinaryNumber(text.toString())) {
+                                if(mNumberConverter!!.isBinaryNumber(text.toString())) {
                                     // mLayout.upperSegmentInputLayout.helperText = null
                                     mLayout.upperSegmentInputLayout.error = null
                                     mLayout.upperSegmentInputLayout.isEndIconVisible = true
@@ -152,7 +150,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
                                 }
                             }
                             "Octal" -> {
-                                if(mConverter!!.isOctalNumber(text.toString())) {
+                                if(mNumberConverter!!.isOctalNumber(text.toString())) {
                                     // mLayout.upperSegmentInputLayout.helperText = null
                                     mLayout.upperSegmentInputLayout.error = null
                                     mLayout.upperSegmentInputLayout.isEndIconVisible = true
@@ -164,7 +162,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
                                 }
                             }
                             "Hexadecimal" -> {
-                                if(mConverter!!.isHexadecimalNumber(text.toString())) {
+                                if(mNumberConverter!!.isHexadecimalNumber(text.toString())) {
                                     // mLayout.upperSegmentInputLayout.helperText = null
                                     mLayout.upperSegmentInputLayout.error = null
                                     mLayout.upperSegmentInputLayout.isEndIconVisible = true
@@ -199,7 +197,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
                     } else {
                         when (lowerToFormatData) {
                             "Decimal" -> {
-                                if(mConverter!!.isDecimalNumber(text.toString())) {
+                                if(mNumberConverter!!.isDecimalNumber(text.toString())) {
                                     mLayout.lowerSegmentInputLayout.error = null
                                     mLayout.lowerSegmentInputLayout.isEndIconVisible = true
                                 } else {
@@ -208,7 +206,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
                                 }
                             }
                             "Binary" -> {
-                                if(mConverter!!.isBinaryNumber(text.toString())) {
+                                if(mNumberConverter!!.isBinaryNumber(text.toString())) {
                                     mLayout.lowerSegmentInputLayout.error = null
                                     mLayout.lowerSegmentInputLayout.isEndIconVisible = true
                                 } else {
@@ -217,7 +215,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
                                 }
                             }
                             "Octal" -> {
-                                if(mConverter!!.isOctalNumber(text.toString())) {
+                                if(mNumberConverter!!.isOctalNumber(text.toString())) {
                                     mLayout.lowerSegmentInputLayout.error = null
                                     mLayout.lowerSegmentInputLayout.isEndIconVisible = true
                                 } else {
@@ -226,7 +224,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
                                 }
                             }
                             "Hexadecimal" -> {
-                                if(mConverter!!.isHexadecimalNumber(text.toString())) {
+                                if(mNumberConverter!!.isHexadecimalNumber(text.toString())) {
                                     mLayout.lowerSegmentInputLayout.error = null
                                     mLayout.lowerSegmentInputLayout.isEndIconVisible = true
                                 } else {
@@ -408,7 +406,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
 
     override fun onDestroy() {
         super.onDestroy()
-        mConverter = null
+        mNumberConverter = null
         spinnerAdapter = null
     }
 
@@ -416,11 +414,11 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
         if (upperFormatData == "Decimal") {
             upperSegmentDecimalData = this.removeFirstCharacter(mLayout.upperSegmentInputData.text.toString(), isZero = true)
             if (upperSegmentDecimalData.isNotEmpty()) {
-                if(mConverter!!.isDecimalNumber(upperSegmentDecimalData)) {
+                if(mNumberConverter!!.isDecimalNumber(upperSegmentDecimalData)) {
                     try {
-                        upperSegmentBinaryData = mConverter!!.convertDecimalToBinary(upperSegmentDecimalData.toLong())
-                        upperSegmentOctalData = mConverter!!.convertDecimalToOctal(upperSegmentDecimalData.toLong())
-                        upperSegmentHexadecimalData = mConverter!!.convertDecimalToHexadecimal(upperSegmentDecimalData.toLong())
+                        upperSegmentBinaryData = mNumberConverter!!.convertDecimalToBinary(upperSegmentDecimalData.toLong())
+                        upperSegmentOctalData = mNumberConverter!!.convertDecimalToOctal(upperSegmentDecimalData.toLong())
+                        upperSegmentHexadecimalData = mNumberConverter!!.convertDecimalToHexadecimal(upperSegmentDecimalData.toLong())
                     } catch (ex: Exception) {
                         Toast.makeText(this@MainActivity, "your entered ${upperFormatData.lowercase(Locale.getDefault())} value is cross it's limit, please cheek your value", Toast.LENGTH_SHORT).also {
                             it.show()
@@ -443,11 +441,11 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
         } else if((upperFormatData == "Binary")) {
             upperSegmentBinaryData = mLayout.upperSegmentInputData.text.toString()
             if (upperSegmentBinaryData.isNotEmpty()) {
-                if(mConverter!!.isBinaryNumber(upperSegmentBinaryData)) {
+                if(mNumberConverter!!.isBinaryNumber(upperSegmentBinaryData)) {
                     try {
-                        upperSegmentDecimalData = mConverter!!.convertBinaryToDecimal(upperSegmentBinaryData.toLong())
-                        upperSegmentOctalData = mConverter!!.convertBinaryToOctal(upperSegmentBinaryData.toLong())
-                        upperSegmentHexadecimalData = mConverter!!.convertBinaryToHexadecimal(upperSegmentBinaryData.toLong())
+                        upperSegmentDecimalData = mNumberConverter!!.convertBinaryToDecimal(upperSegmentBinaryData.toLong())
+                        upperSegmentOctalData = mNumberConverter!!.convertBinaryToOctal(upperSegmentBinaryData.toLong())
+                        upperSegmentHexadecimalData = mNumberConverter!!.convertBinaryToHexadecimal(upperSegmentBinaryData.toLong())
                     } catch (ex: Exception) {
                         Toast.makeText(this@MainActivity, "your entered ${upperFormatData.lowercase(Locale.getDefault())} value is cross it's limit, please cheek your value", Toast.LENGTH_SHORT).also {
                             it.show()
@@ -470,11 +468,11 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
         } else if((upperFormatData == "Octal")) {
             upperSegmentOctalData = mLayout.upperSegmentInputData.text.toString()
             if (upperSegmentOctalData.isNotEmpty()) {
-                if(mConverter!!.isOctalNumber(upperSegmentOctalData)) {
+                if(mNumberConverter!!.isOctalNumber(upperSegmentOctalData)) {
                     try {
-                        upperSegmentDecimalData = mConverter!!.convertOctalToDecimal(upperSegmentOctalData.toLong()).toString()
-                        upperSegmentBinaryData = mConverter!!.convertOctalToBinary(upperSegmentOctalData.toLong()).toString()
-                        upperSegmentHexadecimalData = mConverter!!.convertOctalToHexadecimal(upperSegmentOctalData.toLong())
+                        upperSegmentDecimalData = mNumberConverter!!.convertOctalToDecimal(upperSegmentOctalData.toLong()).toString()
+                        upperSegmentBinaryData = mNumberConverter!!.convertOctalToBinary(upperSegmentOctalData.toLong()).toString()
+                        upperSegmentHexadecimalData = mNumberConverter!!.convertOctalToHexadecimal(upperSegmentOctalData.toLong())
                     } catch (ex: Exception) {
                         Toast.makeText(this@MainActivity, "your entered ${upperFormatData.lowercase(Locale.getDefault())} value is cross it's limit, please cheek your value", Toast.LENGTH_SHORT).also {
                             it.show()
@@ -497,11 +495,11 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
         } else if((upperFormatData == "Hexadecimal")) {
             upperSegmentHexadecimalData = mLayout.upperSegmentInputData.text.toString()
             if (upperSegmentHexadecimalData.isNotEmpty()) {
-                if(mConverter!!.isHexadecimalNumber(upperSegmentHexadecimalData)) {
+                if(mNumberConverter!!.isHexadecimalNumber(upperSegmentHexadecimalData)) {
                     try {
-                        upperSegmentDecimalData = mConverter!!.convertHexadecimalToDecimal(upperSegmentHexadecimalData)
-                        upperSegmentBinaryData = mConverter!!.convertHexadecimalToBinary(upperSegmentHexadecimalData)
-                        upperSegmentOctalData = mConverter!!.convertHexadecimalToOctal(upperSegmentHexadecimalData)
+                        upperSegmentDecimalData = mNumberConverter!!.convertHexadecimalToDecimal(upperSegmentHexadecimalData)
+                        upperSegmentBinaryData = mNumberConverter!!.convertHexadecimalToBinary(upperSegmentHexadecimalData)
+                        upperSegmentOctalData = mNumberConverter!!.convertHexadecimalToOctal(upperSegmentHexadecimalData)
                     } catch (ex: Exception) {
                         Toast.makeText(this@MainActivity, "your entered ${upperFormatData.lowercase(Locale.getDefault())} value is cross it's limit, please cheek your value", Toast.LENGTH_SHORT).also {
                             it.show()
@@ -546,9 +544,9 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
                     it.show()
                 }
             } else if(lowerFormFormatData == "Binary") {
-                if(mConverter!!.isDecimalNumber(lowerSegmentInputData)) {
+                if(mNumberConverter!!.isDecimalNumber(lowerSegmentInputData)) {
                     try {
-                        mLayout.tvLowerOutputData.text = mConverter!!.convertDecimalToBinary(
+                        mLayout.tvLowerOutputData.text = mNumberConverter!!.convertDecimalToBinary(
                             lowerSegmentInputData.toLong()
                         )
                     } catch (ex: Exception) {
@@ -567,9 +565,9 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
                     }
                 }
             } else if(lowerFormFormatData == "Octal") {
-                if(mConverter!!.isDecimalNumber(lowerSegmentInputData)) {
+                if(mNumberConverter!!.isDecimalNumber(lowerSegmentInputData)) {
                     try {
-                        mLayout.tvLowerOutputData.text = mConverter!!.convertDecimalToOctal(
+                        mLayout.tvLowerOutputData.text = mNumberConverter!!.convertDecimalToOctal(
                             lowerSegmentInputData.toLong()
                         )
                     } catch (ex: Exception) {
@@ -588,9 +586,9 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
                     }
                 }
             } else if(lowerFormFormatData == "Hexadecimal") {
-                if(mConverter!!.isDecimalNumber(lowerSegmentInputData)) {
+                if(mNumberConverter!!.isDecimalNumber(lowerSegmentInputData)) {
                     try {
-                        mLayout.tvLowerOutputData.text = mConverter!!.convertDecimalToHexadecimal(
+                        mLayout.tvLowerOutputData.text = mNumberConverter!!.convertDecimalToHexadecimal(
                             lowerSegmentInputData.toLong()
                         )
                     } catch (ex: Exception) {
@@ -615,9 +613,9 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
             }
         } else if(lowerToFormatData == "Binary") {
             if (lowerFormFormatData == "Decimal") {
-                if(mConverter!!.isBinaryNumber(lowerSegmentInputData)) {
+                if(mNumberConverter!!.isBinaryNumber(lowerSegmentInputData)) {
                     try {
-                        mLayout.tvLowerOutputData.text = mConverter!!.convertBinaryToDecimal(
+                        mLayout.tvLowerOutputData.text = mNumberConverter!!.convertBinaryToDecimal(
                             lowerSegmentInputData.toLong()
                         )
                     } catch (ex: Exception) {
@@ -640,9 +638,9 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
                     it.show()
                 }
             } else if(lowerFormFormatData == "Octal") {
-                if(mConverter!!.isBinaryNumber(lowerSegmentInputData)) {
+                if(mNumberConverter!!.isBinaryNumber(lowerSegmentInputData)) {
                     try {
-                        mLayout.tvLowerOutputData.text = mConverter!!.convertBinaryToOctal(
+                        mLayout.tvLowerOutputData.text = mNumberConverter!!.convertBinaryToOctal(
                             lowerSegmentInputData.toLong()
                         )
                     } catch (ex: Exception) {
@@ -661,9 +659,9 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
                     }
                 }
             } else if(lowerFormFormatData == "Hexadecimal") {
-                if(mConverter!!.isBinaryNumber(lowerSegmentInputData)) {
+                if(mNumberConverter!!.isBinaryNumber(lowerSegmentInputData)) {
                     try {
-                        mLayout.tvLowerOutputData.text = mConverter!!.convertBinaryToHexadecimal(
+                        mLayout.tvLowerOutputData.text = mNumberConverter!!.convertBinaryToHexadecimal(
                             lowerSegmentInputData.toLong()
                         )
                     } catch (ex: Exception) {
@@ -688,9 +686,9 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
             }
         } else if(lowerToFormatData == "Octal") {
             if (lowerFormFormatData == "Decimal") {
-                if(mConverter!!.isOctalNumber(lowerSegmentInputData)) {
+                if(mNumberConverter!!.isOctalNumber(lowerSegmentInputData)) {
                     try {
-                        mLayout.tvLowerOutputData.text = mConverter!!.convertOctalToDecimal(
+                        mLayout.tvLowerOutputData.text = mNumberConverter!!.convertOctalToDecimal(
                             lowerSegmentInputData.toLong()
                         )
                     } catch (ex: Exception) {
@@ -709,9 +707,9 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
                     }
                 }
             } else if(lowerFormFormatData == "Binary") {
-                if(mConverter!!.isOctalNumber(lowerSegmentInputData)) {
+                if(mNumberConverter!!.isOctalNumber(lowerSegmentInputData)) {
                     try {
-                        mLayout.tvLowerOutputData.text = mConverter!!.convertOctalToBinary(
+                        mLayout.tvLowerOutputData.text = mNumberConverter!!.convertOctalToBinary(
                             lowerSegmentInputData.toLong()
                         )
                     } catch (ex: Exception) {
@@ -734,9 +732,9 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
                     it.show()
                 }
             } else if(lowerFormFormatData == "Hexadecimal") {
-                if(mConverter!!.isOctalNumber(lowerSegmentInputData)) {
+                if(mNumberConverter!!.isOctalNumber(lowerSegmentInputData)) {
                     try {
-                        mLayout.tvLowerOutputData.text = mConverter!!.convertOctalToHexadecimal(
+                        mLayout.tvLowerOutputData.text = mNumberConverter!!.convertOctalToHexadecimal(
                             lowerSegmentInputData.toLong()
                         )
                     } catch (ex: Exception) {
@@ -761,9 +759,9 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
             }
         } else if(lowerToFormatData == "Hexadecimal") {
             if (lowerFormFormatData == "Decimal") {
-                if(mConverter!!.isHexadecimalNumber(lowerSegmentInputData)) {
+                if(mNumberConverter!!.isHexadecimalNumber(lowerSegmentInputData)) {
                     try {
-                        mLayout.tvLowerOutputData.text = mConverter!!.convertHexadecimalToDecimal(
+                        mLayout.tvLowerOutputData.text = mNumberConverter!!.convertHexadecimalToDecimal(
                             lowerSegmentInputData
                         )
                     } catch (ex: Exception) {
@@ -782,9 +780,9 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
                     }
                 }
             } else if(lowerFormFormatData == "Binary") {
-                if(mConverter!!.isHexadecimalNumber(lowerSegmentInputData)) {
+                if(mNumberConverter!!.isHexadecimalNumber(lowerSegmentInputData)) {
                     try {
-                        mLayout.tvLowerOutputData.text = mConverter!!.convertHexadecimalToBinary(
+                        mLayout.tvLowerOutputData.text = mNumberConverter!!.convertHexadecimalToBinary(
                             lowerSegmentInputData
                         )
                     } catch (ex: Exception) {
@@ -803,9 +801,9 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
                     }
                 }
             } else if(lowerFormFormatData == "Octal") {
-                if(mConverter!!.isHexadecimalNumber(lowerSegmentInputData)) {
+                if(mNumberConverter!!.isHexadecimalNumber(lowerSegmentInputData)) {
                     try {
-                        mLayout.tvLowerOutputData.text = mConverter!!.convertHexadecimalToOctal(
+                        mLayout.tvLowerOutputData.text = mNumberConverter!!.convertHexadecimalToOctal(
                             lowerSegmentInputData
                         )
                     } catch (ex: Exception) {
