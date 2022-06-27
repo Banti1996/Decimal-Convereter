@@ -21,6 +21,7 @@
             android:textColor="@color/teal_200"
             android:textSize="12sp"
             android:textStyle="bold"
+            android:visibility="gone"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -30,13 +31,13 @@
             android:id="@+id/tvUpperSegmentText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="8dp"
             android:text="@string/upper_segment_status"
-            android:textColor="@color/purple_200"
             android:textAllCaps="false"
+            android:textColor="@color/purple_200"
             android:textSize="14sp"
-            app:layout_constraintStart_toStartOf="@+id/tvGeneralText"
-            app:layout_constraintTop_toBottomOf="@+id/tvGeneralText" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvGeneralText" />
 
         <TextView
             android:id="@+id/tvUpperSegmentTextStatus"
@@ -48,24 +49,47 @@
             android:textAllCaps="false"
             android:textSize="14sp"
             android:textColor="@color/green"
-            app:layout_constraintBottom_toBottomOf="@+id/tvUpperSegmentText"
-            app:layout_constraintStart_toEndOf="@+id/tvUpperSegmentText"
-            app:layout_constraintTop_toTopOf="@+id/tvUpperSegmentText" />
+            app:layout_constraintBottom_toBottomOf="@id/tvUpperSegmentText"
+            app:layout_constraintStart_toEndOf="@id/tvUpperSegmentText"
+            app:layout_constraintTop_toTopOf="@id/tvUpperSegmentText" />
+
+        <TextView
+            android:id="@+id/tvUpperSegmentFractionText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="@string/support_for_fraction"
+            android:textAllCaps="false"
+            android:textColor="@color/purple_200"
+            android:textSize="14sp"
+            app:layout_constraintStart_toStartOf="@+id/tvUpperSegmentText"
+            app:layout_constraintTop_toBottomOf="@id/tvUpperSegmentText" />
+
+        <com.google.android.material.switchmaterial.SwitchMaterial
+            android:id="@+id/swUpperSegmentFractionActive"
+            android:layout_width="wrap_content"
+            android:layout_height="15dp"
+            android:layout_marginStart="8dp"
+            android:checked="false"
+            android:enabled="true"
+            app:layout_constraintBottom_toBottomOf="@+id/tvUpperSegmentFractionText"
+            app:layout_constraintStart_toEndOf="@+id/tvUpperSegmentFractionText"
+            app:layout_constraintTop_toTopOf="@+id/tvUpperSegmentFractionText" />
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/upperSegmentSpinnerLayout"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
             android:hint="@string/select_base_formate"
             android:textColorHint="@color/purple_200"
             app:hintTextColor="@color/purple_200"
             app:boxStrokeColor="@color/purple_200"
-            app:layout_constraintEnd_toStartOf="@+id/ivGeneralIcon"
+            app:layout_constraintEnd_toStartOf="@id/ivGeneralIcon"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tvUpperSegmentText"
+            app:layout_constraintTop_toBottomOf="@id/tvUpperSegmentFractionText"
             app:startIconDrawable="@drawable/ic_binary_code"
             app:startIconTint="@color/purple_200">
 
@@ -86,14 +110,14 @@
 
         <ImageView
             android:id="@+id/ivGeneralIcon"
-            android:layout_width="100dp"
+            android:layout_width="120dp"
             android:layout_height="0dp"
             android:layout_marginTop="8dp"
             android:contentDescription="@string/binary"
             android:padding="0dp"
-            app:layout_constraintBottom_toBottomOf="@+id/upperSegmentSpinnerLayout"
+            app:layout_constraintBottom_toBottomOf="@id/upperSegmentSpinnerLayout"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tvGeneralText"
+            app:layout_constraintTop_toBottomOf="@id/tvGeneralText"
             app:srcCompat="@drawable/binary"
             app:tint="@color/teal_200" />
 
@@ -116,7 +140,7 @@
             app:endIconTint="@color/purple_200"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/upperSegmentSpinnerLayout"
+            app:layout_constraintTop_toBottomOf="@id/upperSegmentSpinnerLayout"
             app:helperTextEnabled="false"
             app:helperTextTextColor="@color/red"
             app:errorEnabled="true"
@@ -142,11 +166,11 @@
             android:layout_marginTop="0dp"
             android:layout_marginBottom="8dp"
             android:padding="8dp"
-            app:layout_constraintBottom_toTopOf="@id/convertButton"
+            app:layout_constraintBottom_toTopOf="@id/tvFractionSupport"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/upperSegmentInputLayout"
+            app:layout_constraintTop_toBottomOf="@id/upperSegmentInputLayout"
             app:layout_constraintVertical_bias="0.0">
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -180,9 +204,11 @@
                     android:layout_marginEnd="4dp"
                     android:textColor="@color/purple_200"
                     android:textSize="16sp"
+                    android:maxLines="1"
+                    android:ellipsize="end"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toStartOf="@+id/ivCopyDecimalUpperData"
-                    app:layout_constraintStart_toEndOf="@+id/tvDecimalUpperOutputText"
+                    app:layout_constraintEnd_toStartOf="@id/ivCopyDecimalUpperData"
+                    app:layout_constraintStart_toEndOf="@id/tvDecimalUpperOutputText"
                     app:layout_constraintTop_toTopOf="parent"
                     tools:text="12345" />
 
@@ -209,7 +235,7 @@
                 tools:visibility="visible"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/constraintLayoutDecimalUpperOutputText">
+                app:layout_constraintTop_toBottomOf="@id/constraintLayoutDecimalUpperOutputText">
 
                 <TextView
                     android:id="@+id/tvBinaryUpperOutputText"
@@ -231,9 +257,11 @@
                     android:layout_marginEnd="4dp"
                     android:textColor="@color/purple_200"
                     android:textSize="16sp"
+                    android:maxLines="1"
+                    android:ellipsize="end"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toStartOf="@+id/ivCopyBinaryUpperData"
-                    app:layout_constraintStart_toEndOf="@+id/tvBinaryUpperOutputText"
+                    app:layout_constraintEnd_toStartOf="@id/ivCopyBinaryUpperData"
+                    app:layout_constraintStart_toEndOf="@id/tvBinaryUpperOutputText"
                     app:layout_constraintTop_toTopOf="parent"
                     tools:text="11001011" />
 
@@ -260,7 +288,7 @@
                 tools:visibility="visible"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/constraintLayoutBinaryUpperOutputText">
+                app:layout_constraintTop_toBottomOf="@id/constraintLayoutBinaryUpperOutputText">
 
                 <TextView
                     android:id="@+id/tvOctalUpperOutputText"
@@ -282,9 +310,11 @@
                     android:layout_marginEnd="4dp"
                     android:textColor="@color/purple_200"
                     android:textSize="16sp"
+                    android:maxLines="1"
+                    android:ellipsize="end"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toStartOf="@+id/ivCopyOctalUpperData"
-                    app:layout_constraintStart_toEndOf="@+id/tvOctalUpperOutputText"
+                    app:layout_constraintEnd_toStartOf="@id/ivCopyOctalUpperData"
+                    app:layout_constraintStart_toEndOf="@id/tvOctalUpperOutputText"
                     app:layout_constraintTop_toTopOf="parent"
                     tools:text="1234570" />
 
@@ -311,7 +341,7 @@
                 tools:visibility="visible"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/constraintLayoutOctalUpperOutputText">
+                app:layout_constraintTop_toBottomOf="@id/constraintLayoutOctalUpperOutputText">
 
                 <TextView
                     android:id="@+id/tvHexadecimalUpperOutputText"
@@ -333,9 +363,11 @@
                     android:layout_marginEnd="4dp"
                     android:textColor="@color/purple_200"
                     android:textSize="16sp"
+                    android:maxLines="1"
+                    android:ellipsize="end"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toStartOf="@+id/ivCopyHexadecimalUpperData"
-                    app:layout_constraintStart_toEndOf="@+id/tvHexadecimalUpperOutputText"
+                    app:layout_constraintEnd_toStartOf="@id/ivCopyHexadecimalUpperData"
+                    app:layout_constraintStart_toEndOf="@id/tvHexadecimalUpperOutputText"
                     app:layout_constraintTop_toTopOf="parent"
                     tools:text="00345AF" />
 
@@ -361,7 +393,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/constraintLayoutHexadecimalUpperOutputText">
+                app:layout_constraintTop_toBottomOf="@id/constraintLayoutHexadecimalUpperOutputText">
 
                 <View
                     android:id="@+id/upperView"
@@ -382,8 +414,8 @@
                     android:textAllCaps="false"
                     android:textSize="14sp"
                     android:textColor="@color/teal_200"
-                    app:layout_constraintStart_toStartOf="@+id/toLowerToSpinnerLayout"
-                    app:layout_constraintTop_toBottomOf="@+id/upperView" />
+                    app:layout_constraintStart_toStartOf="@id/toLowerToSpinnerLayout"
+                    app:layout_constraintTop_toBottomOf="@id/upperView" />
 
                 <TextView
                     android:id="@+id/tvLowerSegmentTextStatus"
@@ -394,9 +426,9 @@
                     android:textStyle="bold"
                     android:textAllCaps="false"
                     android:textSize="14sp"
-                    app:layout_constraintBottom_toBottomOf="@+id/tvLowerSegmentText"
-                    app:layout_constraintStart_toEndOf="@+id/tvLowerSegmentText"
-                    app:layout_constraintTop_toTopOf="@+id/tvLowerSegmentText" />
+                    app:layout_constraintBottom_toBottomOf="@id/tvLowerSegmentText"
+                    app:layout_constraintStart_toEndOf="@id/tvLowerSegmentText"
+                    app:layout_constraintTop_toTopOf="@id/tvLowerSegmentText" />
 
 
                 <com.google.android.material.switchmaterial.SwitchMaterial
@@ -405,9 +437,33 @@
                     android:layout_height="20dp"
                     android:layout_marginEnd="4dp"
                     android:checked="false"
-                    app:layout_constraintBottom_toBottomOf="@+id/tvLowerSegmentText"
+                    app:layout_constraintBottom_toBottomOf="@id/tvLowerSegmentText"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="@+id/tvLowerSegmentText" />
+                    app:layout_constraintTop_toTopOf="@id/tvLowerSegmentText" />
+
+
+                <TextView
+                    android:id="@+id/tvLowerSegmentFractionText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:text="@string/support_for_fraction"
+                    android:textAllCaps="false"
+                    android:textColor="@color/teal_200"
+                    android:textSize="14sp"
+                    app:layout_constraintStart_toStartOf="@+id/tvLowerSegmentText"
+                    app:layout_constraintTop_toBottomOf="@+id/tvLowerSegmentText" />
+
+                <com.google.android.material.switchmaterial.SwitchMaterial
+                    android:id="@+id/swLowerSegmentFractionActive"
+                    android:layout_width="wrap_content"
+                    android:layout_height="20dp"
+                    android:layout_marginEnd="4dp"
+                    android:checked="false"
+                    android:enabled="false"
+                    app:layout_constraintBottom_toBottomOf="@+id/tvLowerSegmentFractionText"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/tvLowerSegmentFractionText" />
 
                 <TextView
                     android:id="@+id/tvLowerToText"
@@ -418,8 +474,8 @@
                     android:textAllCaps="false"
                     android:textSize="14sp"
                     android:textColor="@color/teal_200"
-                    app:layout_constraintStart_toStartOf="@+id/toLowerToSpinnerLayout"
-                    app:layout_constraintTop_toBottomOf="@+id/swActive" />
+                    app:layout_constraintStart_toStartOf="@id/toLowerToSpinnerLayout"
+                    app:layout_constraintTop_toBottomOf="@id/swLowerSegmentFractionActive" />
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/toLowerToSpinnerLayout"
@@ -431,10 +487,10 @@
                     android:textColorHint="@color/teal_200"
                     app:hintTextColor="@color/teal_200"
                     app:boxStrokeColor="@color/teal_200"
-                    app:layout_constraintEnd_toStartOf="@+id/toLowerFormSpinnerLayout"
+                    app:layout_constraintEnd_toStartOf="@id/toLowerFormSpinnerLayout"
                     app:layout_constraintHorizontal_bias="0.5"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/tvLowerToText"
+                    app:layout_constraintTop_toBottomOf="@id/tvLowerToText"
                     app:startIconDrawable="@drawable/ic_binary_code"
                     app:startIconTint="@color/teal_200">
 
@@ -462,8 +518,8 @@
                     android:textAllCaps="false"
                     android:textSize="14sp"
                     android:textColor="@color/teal_200"
-                    app:layout_constraintStart_toStartOf="@+id/toLowerFormSpinnerLayout"
-                    app:layout_constraintTop_toTopOf="@+id/tvLowerToText" />
+                    app:layout_constraintStart_toStartOf="@id/toLowerFormSpinnerLayout"
+                    app:layout_constraintTop_toTopOf="@id/tvLowerToText" />
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/toLowerFormSpinnerLayout"
@@ -477,8 +533,8 @@
                     app:boxStrokeColor="@color/teal_200"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.5"
-                    app:layout_constraintStart_toEndOf="@+id/toLowerToSpinnerLayout"
-                    app:layout_constraintTop_toBottomOf="@+id/tvLowerFormText"
+                    app:layout_constraintStart_toEndOf="@id/toLowerToSpinnerLayout"
+                    app:layout_constraintTop_toBottomOf="@id/tvLowerFormText"
                     app:startIconDrawable="@drawable/ic_binary_code"
                     app:startIconTint="@color/teal_200">
 
@@ -516,7 +572,7 @@
                     app:startIconTint="@color/teal_200"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/toLowerFormSpinnerLayout"
+                    app:layout_constraintTop_toBottomOf="@id/toLowerFormSpinnerLayout"
                     app:helperTextEnabled="false"
                     app:helperTextTextColor="@color/red"
                     app:errorEnabled="true"
@@ -545,7 +601,7 @@
                     tools:visibility="visible"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/lowerSegmentInputLayout">
+                    app:layout_constraintTop_toBottomOf="@id/lowerSegmentInputLayout">
 
                     <TextView
                         android:id="@+id/tvLowerOutputDataText"
@@ -567,9 +623,11 @@
                         android:layout_marginEnd="4dp"
                         android:textColor="@color/teal_200"
                         android:textSize="16sp"
+                        android:maxLines="1"
+                        android:ellipsize="end"
                         app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toStartOf="@+id/ivCopyLowerOutput"
-                        app:layout_constraintStart_toEndOf="@+id/tvLowerOutputDataText"
+                        app:layout_constraintEnd_toStartOf="@id/ivCopyLowerOutput"
+                        app:layout_constraintStart_toEndOf="@id/tvLowerOutputDataText"
                         app:layout_constraintTop_toTopOf="parent"
                         tools:text="12345" />
 
@@ -589,9 +647,28 @@
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-
-
         </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <TextView
+            android:id="@+id/tvFractionSupport"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:paddingTop="0dp"
+            android:paddingBottom="0dp"
+            android:paddingEnd="0dp"
+            android:paddingStart="8dp"
+            android:gravity="center_vertical"
+            android:text="@string/support_for_fraction_converter"
+            android:textColor="@color/teal_200"
+            android:textStyle="bold"
+            android:textSize="12sp"
+            app:drawableEndCompat="@drawable/ic_double_arrow"
+            app:drawableTint="@color/teal_200"
+            android:drawablePadding="8dp"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/convertButton" />
 
         <Button
             android:id="@+id/convertButton"

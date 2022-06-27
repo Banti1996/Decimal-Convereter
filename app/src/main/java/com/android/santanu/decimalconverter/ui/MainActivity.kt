@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
+import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
@@ -12,6 +13,7 @@ import android.view.WindowManager
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.activity.viewModels
+import androidx.compose.ui.text.toLowerCase
 import androidx.core.content.ContextCompat
 import androidx.core.widget.doOnTextChanged
 import com.android.santanu.decimalconverter.R
@@ -28,12 +30,15 @@ import kotlin.collections.ArrayList
 import kotlin.system.exitProcess
 
 
-class MainActivity : BaseActivity<ActivityMainBinding>() {
+class MainActivity : BaseActivity<ActivityMainBinding>(),
+    PopupDialogFragment.PopupDialogFragmentListener {
     private val TAG: String = MainActivity::class.java.simpleName
 
 
     private lateinit var mLayout: ActivityMainBinding
     private val mMainViewModel: MainViewModel by viewModels<MainViewModel>()
+
+    private var mPopupDialogFragment: PopupDialogFragment? = null
 
     private val formateList: ArrayList<String> = ArrayList<String>().apply {
         this.add("Decimal")
@@ -56,6 +61,8 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
     private var lowerFormFormatData : String = ""
 
     private var isActive: Boolean = false
+    private var isUpperFractionActive: Boolean = false
+    private var isLowerFractionActive: Boolean = false
 
     private var mNumberConverter: NumberConverter? = null
 
@@ -126,7 +133,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
                     } else {
                         when (upperFormatData) {
                             "Decimal" -> {
-                                if(mNumberConverter!!.isDecimalNumber(text.toString())) {
+                                if(mNumberConverter!!.isDecimalNumber(text.toString(), isUpperFractionActive)) {
                                     // mLayout.upperSegmentInputLayout.helperText = null
                                     mLayout.upperSegmentInputLayout.error = null
                                     mLayout.upperSegmentInputLayout.isEndIconVisible = true
@@ -138,7 +145,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
                                 }
                             }
                             "Binary" -> {
-                                if(mNumberConverter!!.isBinaryNumber(text.toString())) {
+                                if(mNumberConverter!!.isBinaryNumber(text.toString(), isUpperFractionActive)) {
                                     // mLayout.upperSegmentInputLayout.helperText = null
                                     mLayout.upperSegmentInputLayout.error = null
                                     mLayout.upperSegmentInputLayout.isEndIconVisible = true
@@ -150,7 +157,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
                                 }
                             }
                             "Octal" -> {
-                                if(mNumberConverter!!.isOctalNumber(text.toString())) {
+                                if(mNumberConverter!!.isOctalNumber(text.toString(), isUpperFractionActive)) {
                                     // mLayout.upperSegmentInputLayout.helperText = null
                                     mLayout.upperSegmentInputLayout.error = null
                                     mLayout.upperSegmentInputLayout.isEndIconVisible = true
@@ -162,7 +169,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
                                 }
                             }
                             "Hexadecimal" -> {
-                                if(mNumberConverter!!.isHexadecimalNumber(text.toString())) {
+                                if(mNumberConverter!!.isHexadecimalNumber(text.toString(), isUpperFractionActive)) {
                                     // mLayout.upperSegmentInputLayout.helperText = null
                                     mLayout.upperSegmentInputLayout.error = null
                                     mLayout.upperSegmentInputLayout.isEndIconVisible = true
@@ -197,7 +204,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
                     } else {
                         when (lowerToFormatData) {
                             "Decimal" -> {
-                                if(mNumberConverter!!.isDecimalNumber(text.toString())) {
+                                if(mNumberConverter!!.isDecimalNumber(text.toString(), isLowerFractionActive)) {
                                     mLayout.lowerSegmentInputLayout.error = null
                                     mLayout.lowerSegmentInputLayout.isEndIconVisible = true
                                 } else {
@@ -206,7 +213,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
                                 }
                             }
                             "Binary" -> {
-                                if(mNumberConverter!!.isBinaryNumber(text.toString())) {
+                                if(mNumberConverter!!.isBinaryNumber(text.toString(), isLowerFractionActive)) {
                                     mLayout.lowerSegmentInputLayout.error = null
                                     mLayout.lowerSegmentInputLayout.isEndIconVisible = true
                                 } else {
@@ -215,7 +222,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
                                 }
                             }
                             "Octal" -> {
-                                if(mNumberConverter!!.isOctalNumber(text.toString())) {
+                                if(mNumberConverter!!.isOctalNumber(text.toString(), isLowerFractionActive)) {
                                     mLayout.lowerSegmentInputLayout.error = null
                                     mLayout.lowerSegmentInputLayout.isEndIconVisible = true
                                 } else {
@@ -224,7 +231,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
                                 }
                             }
                             "Hexadecimal" -> {
-                                if(mNumberConverter!!.isHexadecimalNumber(text.toString())) {
+                                if(mNumberConverter!!.isHexadecimalNumber(text.toString(), isLowerFractionActive)) {
                                     mLayout.lowerSegmentInputLayout.error = null
                                     mLayout.lowerSegmentInputLayout.isEndIconVisible = true
                                 } else {
@@ -249,6 +256,8 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
 
         mLayout.swActive.setOnCheckedChangeListener { _, isChecked ->
             isActive = isChecked
+            mLayout.swLowerSegmentFractionActive.isEnabled = isChecked
+            mLayout.swUpperSegmentFractionActive.isEnabled = !isChecked
             if (isChecked) {
                 this.onUpperSegmentRefresh()
                 this.initializeSpinner(onRefreshUpper = true, onRefreshLower = false)
@@ -259,6 +268,20 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
                 this.initializeSpinner(onRefreshUpper = false, onRefreshLower = true)
                 this.enableUpperSegment(true)
                 this.enableLowerSegment(false)
+            }
+        }
+
+        mLayout.swUpperSegmentFractionActive.setOnCheckedChangeListener { _, isChecked ->
+            isUpperFractionActive = isChecked
+        }
+
+        mLayout.swLowerSegmentFractionActive.setOnCheckedChangeListener { _, isChecked ->
+            isLowerFractionActive = isChecked
+        }
+
+        mLayout.tvFractionSupport.setOnClickListener {
+            Intent(this@MainActivity, FractionActivity::class.java).apply {
+                startActivity(this)
             }
         }
 
@@ -402,6 +425,37 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
             }
         }
 
+        mLayout.tvDecimalUpperOutputData.setOnClickListener {
+            mPopupDialogFragment = PopupDialogFragment.getInstance(
+                this, "Decimal", mLayout.tvDecimalUpperOutputData.text.toString()
+            )
+            mPopupDialogFragment!!.show(supportFragmentManager, "DialogFragment")
+        }
+        mLayout.tvBinaryUpperOutputData.setOnClickListener {
+            mPopupDialogFragment = PopupDialogFragment.getInstance(
+                this, "Binary", mLayout.tvBinaryUpperOutputData.text.toString()
+            )
+            mPopupDialogFragment!!.show(supportFragmentManager, "DialogFragment")
+        }
+        mLayout.tvOctalUpperOutputData.setOnClickListener {
+            mPopupDialogFragment = PopupDialogFragment.getInstance(
+                this, "Octal", mLayout.tvOctalUpperOutputData.text.toString()
+            )
+            mPopupDialogFragment!!.show(supportFragmentManager, "DialogFragment")
+        }
+        mLayout.tvHexadecimalUpperOutputData.setOnClickListener {
+            mPopupDialogFragment = PopupDialogFragment.getInstance(
+                this, "Hexadecimal", mLayout.tvHexadecimalUpperOutputData.text.toString()
+            )
+            mPopupDialogFragment!!.show(supportFragmentManager, "DialogFragment")
+        }
+        mLayout.tvLowerOutputData.setOnClickListener {
+            mPopupDialogFragment = PopupDialogFragment.getInstance(
+                this, lowerFormFormatData, mLayout.tvLowerOutputData.text.toString()
+            )
+            mPopupDialogFragment!!.show(supportFragmentManager, "DialogFragment")
+        }
+
     }
 
     override fun onDestroy() {
@@ -414,22 +468,25 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
         if (upperFormatData == "Decimal") {
             upperSegmentDecimalData = this.removeFirstCharacter(mLayout.upperSegmentInputData.text.toString(), isZero = true)
             if (upperSegmentDecimalData.isNotEmpty()) {
-                if(mNumberConverter!!.isDecimalNumber(upperSegmentDecimalData)) {
+                if(mNumberConverter!!.isDecimalNumber(upperSegmentDecimalData, isUpperFractionActive)) {
                     try {
-                        upperSegmentBinaryData = mNumberConverter!!.convertDecimalToBinary(upperSegmentDecimalData.toLong())
-                        upperSegmentOctalData = mNumberConverter!!.convertDecimalToOctal(upperSegmentDecimalData.toLong())
-                        upperSegmentHexadecimalData = mNumberConverter!!.convertDecimalToHexadecimal(upperSegmentDecimalData.toLong())
+                        if (isUpperFractionActive) {
+                            upperSegmentBinaryData = mNumberConverter!!.decimalToBinary(upperSegmentDecimalData, true)
+                            upperSegmentOctalData = mNumberConverter!!.decimalToOctal(upperSegmentDecimalData, true)
+                            upperSegmentHexadecimalData = mNumberConverter!!.decimalToHexadecimal(upperSegmentDecimalData, true)
+                        } else {
+                            upperSegmentBinaryData = mNumberConverter!!.convertDecimalToBinary(upperSegmentDecimalData.toLong())
+                            upperSegmentOctalData = mNumberConverter!!.convertDecimalToOctal(upperSegmentDecimalData.toLong())
+                            upperSegmentHexadecimalData = mNumberConverter!!.convertDecimalToHexadecimal(upperSegmentDecimalData.toLong())
+                        }
                     } catch (ex: Exception) {
                         Toast.makeText(this@MainActivity, "your entered ${upperFormatData.lowercase(Locale.getDefault())} value is cross it's limit, please cheek your value", Toast.LENGTH_SHORT).also {
                             it.show()
                         }
-                        Log.d(TAG, "MainActivity{} : upperSegmentDataProceed() >>" +
-                            " [line ${Thread.currentThread().stackTrace[2].lineNumber}] :: ${ex.localizedMessage}"
-                        )
                     }
                     updateUpperSegmentLayoutData(upperFormatData)
                 } else {
-                    Toast.makeText(this@MainActivity, "incorrect ${upperFormatData.lowercase(Locale.getDefault())} Data, please check entered your data", Toast.LENGTH_SHORT).also {
+                    Toast.makeText(this@MainActivity, "incorrect ${upperFormatData.lowercase(Locale.getDefault())} data, please check entered your data", Toast.LENGTH_SHORT).also {
                         it.show()
                     }
                 }
@@ -441,18 +498,21 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
         } else if((upperFormatData == "Binary")) {
             upperSegmentBinaryData = mLayout.upperSegmentInputData.text.toString()
             if (upperSegmentBinaryData.isNotEmpty()) {
-                if(mNumberConverter!!.isBinaryNumber(upperSegmentBinaryData)) {
+                if(mNumberConverter!!.isBinaryNumber(upperSegmentBinaryData, isUpperFractionActive)) {
                     try {
-                        upperSegmentDecimalData = mNumberConverter!!.convertBinaryToDecimal(upperSegmentBinaryData.toLong())
-                        upperSegmentOctalData = mNumberConverter!!.convertBinaryToOctal(upperSegmentBinaryData.toLong())
-                        upperSegmentHexadecimalData = mNumberConverter!!.convertBinaryToHexadecimal(upperSegmentBinaryData.toLong())
+                        if (isUpperFractionActive) {
+                            upperSegmentDecimalData = mNumberConverter!!.binaryToDecimal(upperSegmentBinaryData, true)
+                            upperSegmentOctalData = mNumberConverter!!.binaryToOctal(upperSegmentBinaryData, true)
+                            upperSegmentHexadecimalData = mNumberConverter!!.binaryToHexadecimal(upperSegmentBinaryData, true)
+                        } else {
+                            upperSegmentDecimalData = mNumberConverter!!.convertBinaryToDecimal(upperSegmentBinaryData.toLong())
+                            upperSegmentOctalData = mNumberConverter!!.convertBinaryToOctal(upperSegmentBinaryData.toLong())
+                            upperSegmentHexadecimalData = mNumberConverter!!.convertBinaryToHexadecimal(upperSegmentBinaryData.toLong())
+                        }
                     } catch (ex: Exception) {
                         Toast.makeText(this@MainActivity, "your entered ${upperFormatData.lowercase(Locale.getDefault())} value is cross it's limit, please cheek your value", Toast.LENGTH_SHORT).also {
                             it.show()
                         }
-                        Log.d(TAG, "MainActivity{} : upperSegmentDataProceed() >>" +
-                                " [line ${Thread.currentThread().stackTrace[2].lineNumber}] :: ${ex.localizedMessage}"
-                        )
                     }
                     updateUpperSegmentLayoutData(upperFormatData)
                 } else {
@@ -468,18 +528,21 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
         } else if((upperFormatData == "Octal")) {
             upperSegmentOctalData = mLayout.upperSegmentInputData.text.toString()
             if (upperSegmentOctalData.isNotEmpty()) {
-                if(mNumberConverter!!.isOctalNumber(upperSegmentOctalData)) {
+                if(mNumberConverter!!.isOctalNumber(upperSegmentOctalData, isUpperFractionActive)) {
                     try {
-                        upperSegmentDecimalData = mNumberConverter!!.convertOctalToDecimal(upperSegmentOctalData.toLong()).toString()
-                        upperSegmentBinaryData = mNumberConverter!!.convertOctalToBinary(upperSegmentOctalData.toLong()).toString()
-                        upperSegmentHexadecimalData = mNumberConverter!!.convertOctalToHexadecimal(upperSegmentOctalData.toLong())
+                        if (isUpperFractionActive) {
+                            upperSegmentDecimalData = mNumberConverter!!.octalToDecimal(upperSegmentOctalData, true)
+                            upperSegmentBinaryData = mNumberConverter!!.octalToBinary(upperSegmentOctalData, true)
+                            upperSegmentHexadecimalData = mNumberConverter!!.octalToHexadecimal(upperSegmentOctalData, true)
+                        } else {
+                            upperSegmentDecimalData = mNumberConverter!!.convertOctalToDecimal(upperSegmentOctalData.toLong())
+                            upperSegmentBinaryData = mNumberConverter!!.convertOctalToBinary(upperSegmentOctalData.toLong())
+                            upperSegmentHexadecimalData = mNumberConverter!!.convertOctalToHexadecimal(upperSegmentOctalData.toLong())
+                        }
                     } catch (ex: Exception) {
                         Toast.makeText(this@MainActivity, "your entered ${upperFormatData.lowercase(Locale.getDefault())} value is cross it's limit, please cheek your value", Toast.LENGTH_SHORT).also {
                             it.show()
                         }
-                        Log.d(TAG, "MainActivity{} : upperSegmentDataProceed() >>" +
-                                " [line ${Thread.currentThread().stackTrace[2].lineNumber}] :: ${ex.localizedMessage}"
-                        )
                     }
                     updateUpperSegmentLayoutData(upperFormatData)
                 } else {
@@ -495,18 +558,22 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
         } else if((upperFormatData == "Hexadecimal")) {
             upperSegmentHexadecimalData = mLayout.upperSegmentInputData.text.toString()
             if (upperSegmentHexadecimalData.isNotEmpty()) {
-                if(mNumberConverter!!.isHexadecimalNumber(upperSegmentHexadecimalData)) {
+                if(mNumberConverter!!.isHexadecimalNumber(upperSegmentHexadecimalData, isUpperFractionActive)) {
                     try {
-                        upperSegmentDecimalData = mNumberConverter!!.convertHexadecimalToDecimal(upperSegmentHexadecimalData)
-                        upperSegmentBinaryData = mNumberConverter!!.convertHexadecimalToBinary(upperSegmentHexadecimalData)
-                        upperSegmentOctalData = mNumberConverter!!.convertHexadecimalToOctal(upperSegmentHexadecimalData)
+
+                        if (isUpperFractionActive) {
+                            upperSegmentDecimalData = mNumberConverter!!.hexadecimalToDecimal(upperSegmentHexadecimalData, true)
+                            upperSegmentBinaryData = mNumberConverter!!.hexadecimalToBinary(upperSegmentHexadecimalData, true)
+                            upperSegmentOctalData = mNumberConverter!!.hexadecimalToOctal(upperSegmentHexadecimalData, true)
+                        } else {
+                            upperSegmentDecimalData = mNumberConverter!!.convertHexadecimalToDecimal(upperSegmentHexadecimalData)
+                            upperSegmentBinaryData = mNumberConverter!!.convertHexadecimalToBinary(upperSegmentHexadecimalData)
+                            upperSegmentOctalData = mNumberConverter!!.convertHexadecimalToOctal(upperSegmentHexadecimalData)
+                        }
                     } catch (ex: Exception) {
                         Toast.makeText(this@MainActivity, "your entered ${upperFormatData.lowercase(Locale.getDefault())} value is cross it's limit, please cheek your value", Toast.LENGTH_SHORT).also {
                             it.show()
                         }
-                        Log.d(TAG, "MainActivity{} : upperSegmentDataProceed() >>" +
-                                " [line ${Thread.currentThread().stackTrace[2].lineNumber}] :: ${ex.localizedMessage}"
-                        )
                     }
 
                     updateUpperSegmentLayoutData(upperFormatData)
@@ -544,18 +611,21 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
                     it.show()
                 }
             } else if(lowerFormFormatData == "Binary") {
-                if(mNumberConverter!!.isDecimalNumber(lowerSegmentInputData)) {
+                if(mNumberConverter!!.isDecimalNumber(lowerSegmentInputData, isLowerFractionActive)) {
                     try {
-                        mLayout.tvLowerOutputData.text = mNumberConverter!!.convertDecimalToBinary(
-                            lowerSegmentInputData.toLong()
-                        )
+                        if (isLowerFractionActive) {
+                            mLayout.tvLowerOutputData.text = mNumberConverter!!.decimalToBinary(
+                                lowerSegmentInputData, true
+                            )
+                        } else {
+                            mLayout.tvLowerOutputData.text = mNumberConverter!!.convertDecimalToBinary(
+                                lowerSegmentInputData.toLong()
+                            )
+                        }
                     } catch (ex: Exception) {
                         Toast.makeText(this@MainActivity, "your entered ${lowerToFormatData.lowercase(Locale.getDefault())} value is cross it's limit, please cheek your value", Toast.LENGTH_SHORT).also {
                             it.show()
                         }
-                        Log.d(TAG, "MainActivity{} : upperSegmentDataProceed() >>" +
-                                " [line ${Thread.currentThread().stackTrace[2].lineNumber}] :: ${ex.localizedMessage}"
-                        )
                     }
                     mLayout.tvLowerOutputDataText.text = "$lowerFormFormatData : "
                     mLayout.constraintLayoutLowerOutput.visibility = View.VISIBLE
@@ -565,18 +635,21 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
                     }
                 }
             } else if(lowerFormFormatData == "Octal") {
-                if(mNumberConverter!!.isDecimalNumber(lowerSegmentInputData)) {
+                if(mNumberConverter!!.isDecimalNumber(lowerSegmentInputData, isLowerFractionActive)) {
                     try {
-                        mLayout.tvLowerOutputData.text = mNumberConverter!!.convertDecimalToOctal(
-                            lowerSegmentInputData.toLong()
-                        )
+                        if (isLowerFractionActive) {
+                            mLayout.tvLowerOutputData.text = mNumberConverter!!.decimalToOctal(
+                                lowerSegmentInputData, true
+                            )
+                        } else {
+                            mLayout.tvLowerOutputData.text = mNumberConverter!!.convertDecimalToOctal(
+                                lowerSegmentInputData.toLong()
+                            )
+                        }
                     } catch (ex: Exception) {
                         Toast.makeText(this@MainActivity, "your entered ${lowerToFormatData.lowercase(Locale.getDefault())} value is cross it's limit, please cheek your value", Toast.LENGTH_SHORT).also {
                             it.show()
                         }
-                        Log.d(TAG, "MainActivity{} : upperSegmentDataProceed() >>" +
-                                " [line ${Thread.currentThread().stackTrace[2].lineNumber}] :: ${ex.localizedMessage}"
-                        )
                     }
                     mLayout.tvLowerOutputDataText.text = "$lowerFormFormatData : "
                     mLayout.constraintLayoutLowerOutput.visibility = View.VISIBLE
@@ -586,18 +659,21 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
                     }
                 }
             } else if(lowerFormFormatData == "Hexadecimal") {
-                if(mNumberConverter!!.isDecimalNumber(lowerSegmentInputData)) {
+                if(mNumberConverter!!.isDecimalNumber(lowerSegmentInputData, isLowerFractionActive)) {
                     try {
-                        mLayout.tvLowerOutputData.text = mNumberConverter!!.convertDecimalToHexadecimal(
-                            lowerSegmentInputData.toLong()
-                        )
+                        if (isLowerFractionActive) {
+                            mLayout.tvLowerOutputData.text = mNumberConverter!!.decimalToHexadecimal(
+                                lowerSegmentInputData, true
+                            )
+                        } else {
+                            mLayout.tvLowerOutputData.text = mNumberConverter!!.convertDecimalToHexadecimal(
+                                lowerSegmentInputData.toLong()
+                            )
+                        }
                     } catch (ex: Exception) {
                         Toast.makeText(this@MainActivity, "your entered ${lowerToFormatData.lowercase(Locale.getDefault())} value is cross it's limit, please cheek your value", Toast.LENGTH_SHORT).also {
                             it.show()
                         }
-                        Log.d(TAG, "MainActivity{} : upperSegmentDataProceed() >>" +
-                                " [line ${Thread.currentThread().stackTrace[2].lineNumber}] :: ${ex.localizedMessage}"
-                        )
                     }
                     mLayout.tvLowerOutputDataText.text = "$lowerFormFormatData : "
                     mLayout.constraintLayoutLowerOutput.visibility = View.VISIBLE
@@ -613,18 +689,21 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
             }
         } else if(lowerToFormatData == "Binary") {
             if (lowerFormFormatData == "Decimal") {
-                if(mNumberConverter!!.isBinaryNumber(lowerSegmentInputData)) {
+                if(mNumberConverter!!.isBinaryNumber(lowerSegmentInputData, isLowerFractionActive)) {
                     try {
-                        mLayout.tvLowerOutputData.text = mNumberConverter!!.convertBinaryToDecimal(
-                            lowerSegmentInputData.toLong()
-                        )
+                        if (isLowerFractionActive) {
+                            mLayout.tvLowerOutputData.text = mNumberConverter!!.binaryToDecimal(
+                                lowerSegmentInputData, true
+                            )
+                        } else {
+                            mLayout.tvLowerOutputData.text = mNumberConverter!!.convertBinaryToDecimal(
+                                lowerSegmentInputData.toLong()
+                            )
+                        }
                     } catch (ex: Exception) {
                         Toast.makeText(this@MainActivity, "your entered ${lowerToFormatData.lowercase(Locale.getDefault())} value is cross it's limit, please cheek your value", Toast.LENGTH_SHORT).also {
                             it.show()
                         }
-                        Log.d(TAG, "MainActivity{} : upperSegmentDataProceed() >>" +
-                                " [line ${Thread.currentThread().stackTrace[2].lineNumber}] :: ${ex.localizedMessage}"
-                        )
                     }
                     mLayout.tvLowerOutputDataText.text = "$lowerFormFormatData : "
                     mLayout.constraintLayoutLowerOutput.visibility = View.VISIBLE
@@ -638,18 +717,21 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
                     it.show()
                 }
             } else if(lowerFormFormatData == "Octal") {
-                if(mNumberConverter!!.isBinaryNumber(lowerSegmentInputData)) {
+                if(mNumberConverter!!.isBinaryNumber(lowerSegmentInputData, isLowerFractionActive)) {
                     try {
-                        mLayout.tvLowerOutputData.text = mNumberConverter!!.convertBinaryToOctal(
-                            lowerSegmentInputData.toLong()
-                        )
+                        if (isLowerFractionActive) {
+                            mLayout.tvLowerOutputData.text = mNumberConverter!!.binaryToOctal(
+                                lowerSegmentInputData, true
+                            )
+                        } else {
+                            mLayout.tvLowerOutputData.text = mNumberConverter!!.convertBinaryToOctal(
+                                lowerSegmentInputData.toLong()
+                            )
+                        }
                     } catch (ex: Exception) {
                         Toast.makeText(this@MainActivity, "your entered ${lowerToFormatData.lowercase(Locale.getDefault())} value is cross it's limit, please cheek your value", Toast.LENGTH_SHORT).also {
                             it.show()
                         }
-                        Log.d(TAG, "MainActivity{} : upperSegmentDataProceed() >>" +
-                                " [line ${Thread.currentThread().stackTrace[2].lineNumber}] :: ${ex.localizedMessage}"
-                        )
                     }
                     mLayout.tvLowerOutputDataText.text = "$lowerFormFormatData : "
                     mLayout.constraintLayoutLowerOutput.visibility = View.VISIBLE
@@ -659,18 +741,21 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
                     }
                 }
             } else if(lowerFormFormatData == "Hexadecimal") {
-                if(mNumberConverter!!.isBinaryNumber(lowerSegmentInputData)) {
+                if(mNumberConverter!!.isBinaryNumber(lowerSegmentInputData, isLowerFractionActive)) {
                     try {
-                        mLayout.tvLowerOutputData.text = mNumberConverter!!.convertBinaryToHexadecimal(
-                            lowerSegmentInputData.toLong()
-                        )
+                        if (isLowerFractionActive) {
+                            mLayout.tvLowerOutputData.text = mNumberConverter!!.binaryToHexadecimal(
+                                lowerSegmentInputData, true
+                            )
+                        } else {
+                            mLayout.tvLowerOutputData.text = mNumberConverter!!.convertBinaryToHexadecimal(
+                                lowerSegmentInputData.toLong()
+                            )
+                        }
                     } catch (ex: Exception) {
                         Toast.makeText(this@MainActivity, "your entered ${lowerToFormatData.lowercase(Locale.getDefault())} value is cross it's limit, please cheek your value", Toast.LENGTH_SHORT).also {
                             it.show()
                         }
-                        Log.d(TAG, "MainActivity{} : upperSegmentDataProceed() >>" +
-                                " [line ${Thread.currentThread().stackTrace[2].lineNumber}] :: ${ex.localizedMessage}"
-                        )
                     }
                     mLayout.tvLowerOutputDataText.text = "$lowerFormFormatData : "
                     mLayout.constraintLayoutLowerOutput.visibility = View.VISIBLE
@@ -686,18 +771,21 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
             }
         } else if(lowerToFormatData == "Octal") {
             if (lowerFormFormatData == "Decimal") {
-                if(mNumberConverter!!.isOctalNumber(lowerSegmentInputData)) {
+                if(mNumberConverter!!.isOctalNumber(lowerSegmentInputData, isLowerFractionActive)) {
                     try {
-                        mLayout.tvLowerOutputData.text = mNumberConverter!!.convertOctalToDecimal(
-                            lowerSegmentInputData.toLong()
-                        )
+                        if (isLowerFractionActive) {
+                            mLayout.tvLowerOutputData.text = mNumberConverter!!.octalToDecimal(
+                                lowerSegmentInputData, true
+                            )
+                        } else {
+                            mLayout.tvLowerOutputData.text = mNumberConverter!!.convertOctalToDecimal(
+                                lowerSegmentInputData.toLong()
+                            )
+                        }
                     } catch (ex: Exception) {
                         Toast.makeText(this@MainActivity, "your entered ${lowerToFormatData.lowercase(Locale.getDefault())} value is cross it's limit, please cheek your value", Toast.LENGTH_SHORT).also {
                             it.show()
                         }
-                        Log.d(TAG, "MainActivity{} : upperSegmentDataProceed() >>" +
-                                " [line ${Thread.currentThread().stackTrace[2].lineNumber}] :: ${ex.localizedMessage}"
-                        )
                     }
                     mLayout.tvLowerOutputDataText.text = "$lowerFormFormatData : "
                     mLayout.constraintLayoutLowerOutput.visibility = View.VISIBLE
@@ -707,18 +795,21 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
                     }
                 }
             } else if(lowerFormFormatData == "Binary") {
-                if(mNumberConverter!!.isOctalNumber(lowerSegmentInputData)) {
+                if(mNumberConverter!!.isOctalNumber(lowerSegmentInputData, isLowerFractionActive)) {
                     try {
-                        mLayout.tvLowerOutputData.text = mNumberConverter!!.convertOctalToBinary(
-                            lowerSegmentInputData.toLong()
-                        )
+                        if (isLowerFractionActive) {
+                            mLayout.tvLowerOutputData.text = mNumberConverter!!.octalToBinary(
+                                lowerSegmentInputData, true
+                            )
+                        } else {
+                            mLayout.tvLowerOutputData.text = mNumberConverter!!.convertOctalToBinary(
+                                lowerSegmentInputData.toLong()
+                            )
+                        }
                     } catch (ex: Exception) {
                         Toast.makeText(this@MainActivity, "your entered ${lowerToFormatData.lowercase(Locale.getDefault())} value is cross it's limit, please cheek your value", Toast.LENGTH_SHORT).also {
                             it.show()
                         }
-                        Log.d(TAG, "MainActivity{} : upperSegmentDataProceed() >>" +
-                                " [line ${Thread.currentThread().stackTrace[2].lineNumber}] :: ${ex.localizedMessage}"
-                        )
                     }
                     mLayout.tvLowerOutputDataText.text = "$lowerFormFormatData : "
                     mLayout.constraintLayoutLowerOutput.visibility = View.VISIBLE
@@ -732,18 +823,21 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
                     it.show()
                 }
             } else if(lowerFormFormatData == "Hexadecimal") {
-                if(mNumberConverter!!.isOctalNumber(lowerSegmentInputData)) {
+                if(mNumberConverter!!.isOctalNumber(lowerSegmentInputData, isLowerFractionActive)) {
                     try {
-                        mLayout.tvLowerOutputData.text = mNumberConverter!!.convertOctalToHexadecimal(
-                            lowerSegmentInputData.toLong()
-                        )
+                        if (isLowerFractionActive) {
+                            mLayout.tvLowerOutputData.text = mNumberConverter!!.octalToHexadecimal(
+                                lowerSegmentInputData, true
+                            )
+                        } else {
+                            mLayout.tvLowerOutputData.text = mNumberConverter!!.convertOctalToHexadecimal(
+                                lowerSegmentInputData.toLong()
+                            )
+                        }
                     } catch (ex: Exception) {
                         Toast.makeText(this@MainActivity, "your entered ${lowerToFormatData.lowercase(Locale.getDefault())} value is cross it's limit, please cheek your value", Toast.LENGTH_SHORT).also {
                             it.show()
                         }
-                        Log.d(TAG, "MainActivity{} : upperSegmentDataProceed() >>" +
-                                " [line ${Thread.currentThread().stackTrace[2].lineNumber}] :: ${ex.localizedMessage}"
-                        )
                     }
                     mLayout.tvLowerOutputDataText.text = "$lowerFormFormatData : "
                     mLayout.constraintLayoutLowerOutput.visibility = View.VISIBLE
@@ -759,18 +853,21 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
             }
         } else if(lowerToFormatData == "Hexadecimal") {
             if (lowerFormFormatData == "Decimal") {
-                if(mNumberConverter!!.isHexadecimalNumber(lowerSegmentInputData)) {
+                if(mNumberConverter!!.isHexadecimalNumber(lowerSegmentInputData, isLowerFractionActive)) {
                     try {
-                        mLayout.tvLowerOutputData.text = mNumberConverter!!.convertHexadecimalToDecimal(
-                            lowerSegmentInputData
-                        )
+                        if (isLowerFractionActive) {
+                            mLayout.tvLowerOutputData.text = mNumberConverter!!.hexadecimalToDecimal(
+                                lowerSegmentInputData, true
+                            )
+                        } else {
+                            mLayout.tvLowerOutputData.text = mNumberConverter!!.convertHexadecimalToDecimal(
+                                lowerSegmentInputData
+                            )
+                        }
                     } catch (ex: Exception) {
                         Toast.makeText(this@MainActivity, "your entered ${lowerToFormatData.lowercase(Locale.getDefault())} value is cross it's limit, please cheek your value", Toast.LENGTH_SHORT).also {
                             it.show()
                         }
-                        Log.d(TAG, "MainActivity{} : upperSegmentDataProceed() >>" +
-                                " [line ${Thread.currentThread().stackTrace[2].lineNumber}] :: ${ex.localizedMessage}"
-                        )
                     }
                     mLayout.tvLowerOutputDataText.text = "$lowerFormFormatData : "
                     mLayout.constraintLayoutLowerOutput.visibility = View.VISIBLE
@@ -780,18 +877,21 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
                     }
                 }
             } else if(lowerFormFormatData == "Binary") {
-                if(mNumberConverter!!.isHexadecimalNumber(lowerSegmentInputData)) {
+                if(mNumberConverter!!.isHexadecimalNumber(lowerSegmentInputData, isLowerFractionActive)) {
                     try {
-                        mLayout.tvLowerOutputData.text = mNumberConverter!!.convertHexadecimalToBinary(
-                            lowerSegmentInputData
-                        )
+                        if (isLowerFractionActive) {
+                            mLayout.tvLowerOutputData.text = mNumberConverter!!.hexadecimalToBinary(
+                                lowerSegmentInputData, true
+                            )
+                        } else {
+                            mLayout.tvLowerOutputData.text = mNumberConverter!!.convertHexadecimalToBinary(
+                                lowerSegmentInputData
+                            )
+                        }
                     } catch (ex: Exception) {
                         Toast.makeText(this@MainActivity, "your entered ${lowerToFormatData.lowercase(Locale.getDefault())} value is cross it's limit, please cheek your value", Toast.LENGTH_SHORT).also {
                             it.show()
                         }
-                        Log.d(TAG, "MainActivity{} : upperSegmentDataProceed() >>" +
-                                " [line ${Thread.currentThread().stackTrace[2].lineNumber}] :: ${ex.localizedMessage}"
-                        )
                     }
                     mLayout.tvLowerOutputDataText.text = "$lowerFormFormatData : "
                     mLayout.constraintLayoutLowerOutput.visibility = View.VISIBLE
@@ -801,18 +901,21 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
                     }
                 }
             } else if(lowerFormFormatData == "Octal") {
-                if(mNumberConverter!!.isHexadecimalNumber(lowerSegmentInputData)) {
+                if(mNumberConverter!!.isHexadecimalNumber(lowerSegmentInputData, isLowerFractionActive)) {
                     try {
-                        mLayout.tvLowerOutputData.text = mNumberConverter!!.convertHexadecimalToOctal(
-                            lowerSegmentInputData
-                        )
+                        if (isLowerFractionActive) {
+                            mLayout.tvLowerOutputData.text = mNumberConverter!!.hexadecimalToOctal(
+                                lowerSegmentInputData, true
+                            )
+                        } else {
+                            mLayout.tvLowerOutputData.text = mNumberConverter!!.convertHexadecimalToOctal(
+                                lowerSegmentInputData
+                            )
+                        }
                     } catch (ex: Exception) {
                         Toast.makeText(this@MainActivity, "your entered ${lowerToFormatData.lowercase(Locale.getDefault())} value is cross it's limit, please cheek your value", Toast.LENGTH_SHORT).also {
                             it.show()
                         }
-                        Log.d(TAG, "MainActivity{} : upperSegmentDataProceed() >>" +
-                                " [line ${Thread.currentThread().stackTrace[2].lineNumber}] :: ${ex.localizedMessage}"
-                        )
                     }
                     mLayout.tvLowerOutputDataText.text = "$lowerFormFormatData : "
                     mLayout.constraintLayoutLowerOutput.visibility = View.VISIBLE
@@ -1032,6 +1135,25 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
         return if (data.startsWith("0")) {
             data.substring(1)
         } else data
+    }
+
+    override fun onDialogExit() {
+        mPopupDialogFragment?.dismiss()
+        mPopupDialogFragment = null
+    }
+
+    override fun onDialogCancel() {
+        mPopupDialogFragment?.dismiss()
+        mPopupDialogFragment = null
+    }
+
+    override fun onDialogDataCopy(title: String, data: String) {
+        ClipData.newPlainText("$title text", data).also {
+            clipboard.setPrimaryClip(it)
+        }
+        Toast.makeText(this@MainActivity, "${title.lowercase(Locale.forLanguageTag("In"))} data copy to clipboard", Toast.LENGTH_SHORT).also {
+            it.show()
+        }
     }
 
 }

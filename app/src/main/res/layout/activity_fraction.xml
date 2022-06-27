@@ -1,0 +1,301 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="8dp"
+        tools:context=".ui.FractionActivity">
+
+        <TextView
+            android:id="@+id/tvGeneralText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/txt"
+            android:textColor="@color/teal_200"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constraintNewSegmentLayout"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:padding="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvGeneralText">
+
+            <View
+                android:id="@+id/upperView"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/gray"
+                android:backgroundTint="@color/gray"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tvLowerSegmentText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="@string/lower_segment_status"
+                android:textAllCaps="false"
+                android:textColor="@color/teal_200"
+                android:textSize="14sp"
+                app:layout_constraintStart_toStartOf="@+id/toLowerToSpinnerLayout"
+                app:layout_constraintTop_toBottomOf="@+id/upperView" />
+
+            <TextView
+                android:id="@+id/tvLowerSegmentTextStatus"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:text="@string/disable"
+                android:textAllCaps="false"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="@+id/tvLowerSegmentText"
+                app:layout_constraintStart_toEndOf="@+id/tvLowerSegmentText"
+                app:layout_constraintTop_toTopOf="@+id/tvLowerSegmentText" />
+
+
+            <com.google.android.material.switchmaterial.SwitchMaterial
+                android:id="@+id/swActive"
+                android:layout_width="wrap_content"
+                android:layout_height="20dp"
+                android:layout_marginEnd="4dp"
+                android:checked="true"
+                app:layout_constraintBottom_toBottomOf="@+id/tvLowerSegmentText"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/tvLowerSegmentText" />
+
+            <TextView
+                android:id="@+id/tvLowerToText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:text="@string/to"
+                android:textAllCaps="false"
+                android:textColor="@color/teal_200"
+                android:textSize="14sp"
+                app:layout_constraintStart_toStartOf="@+id/toLowerToSpinnerLayout"
+                app:layout_constraintTop_toBottomOf="@+id/swActive" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/toLowerToSpinnerLayout"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="4dp"
+                android:hint="@string/select"
+                android:textColorHint="@color/teal_200"
+                app:boxStrokeColor="@color/teal_200"
+                app:hintTextColor="@color/teal_200"
+                app:layout_constraintEnd_toStartOf="@+id/toLowerFormSpinnerLayout"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvLowerToText"
+                app:startIconDrawable="@drawable/ic_binary_code"
+                app:startIconTint="@color/teal_200">
+
+                <androidx.appcompat.widget.AppCompatAutoCompleteTextView
+                    android:id="@+id/lowerToSpinner"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:clickable="true"
+                    android:cursorVisible="false"
+                    android:ems="3"
+                    android:gravity="start"
+                    android:longClickable="false"
+                    android:maxLines="1"
+                    android:textAllCaps="true"
+                    android:textColor="@color/teal_200"
+                    tools:ignore="KeyboardInaccessibleWidget" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+
+            <TextView
+                android:id="@+id/tvLowerFormText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/form"
+                android:textAllCaps="false"
+                android:textColor="@color/teal_200"
+                android:textSize="14sp"
+                app:layout_constraintStart_toStartOf="@+id/toLowerFormSpinnerLayout"
+                app:layout_constraintTop_toTopOf="@+id/tvLowerToText" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/toLowerFormSpinnerLayout"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:hint="@string/select"
+                android:textColorHint="@color/teal_200"
+                app:boxStrokeColor="@color/teal_200"
+                app:hintTextColor="@color/teal_200"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/toLowerToSpinnerLayout"
+                app:layout_constraintTop_toBottomOf="@+id/tvLowerFormText"
+                app:startIconDrawable="@drawable/ic_binary_code"
+                app:startIconTint="@color/teal_200">
+
+                <androidx.appcompat.widget.AppCompatAutoCompleteTextView
+                    android:id="@+id/lowerFormSpinner"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:clickable="true"
+                    android:cursorVisible="false"
+                    android:ems="3"
+                    android:gravity="start"
+                    android:longClickable="false"
+                    android:maxLines="1"
+                    android:textAllCaps="true"
+                    android:textColor="@color/teal_200"
+                    tools:ignore="KeyboardInaccessibleWidget" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/lowerSegmentInputLayout"
+                style="@style/LowerSegmentTextInputLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                android:hint="@string/enter_your_format_value"
+                android:textColorHint="@color/teal_200"
+                app:boxStrokeColor="@color/teal_200"
+                app:endIconCheckable="true"
+                app:endIconDrawable="@drawable/ic_content_copy"
+                app:endIconMode="custom"
+                app:endIconTint="@color/teal_200"
+                app:errorEnabled="true"
+                app:errorIconDrawable="@drawable/ic_error"
+                app:errorIconTint="@color/red"
+                app:errorTextColor="@color/red"
+                app:helperTextEnabled="false"
+                app:helperTextTextColor="@color/red"
+                app:hintTextColor="@color/teal_200"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/toLowerFormSpinnerLayout"
+                app:startIconDrawable="@drawable/ic_input"
+                app:startIconTint="@color/teal_200">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/lowerSegmentInputData"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:clickable="true"
+                    android:cursorVisible="true"
+                    android:longClickable="false"
+                    android:textColor="@color/teal_200" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/constraintLayoutLowerOutput"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_marginTop="8dp"
+                android:padding="8dp"
+                android:visibility="invisible"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/lowerSegmentInputLayout"
+                tools:visibility="visible">
+
+                <TextView
+                    android:id="@+id/tvLowerOutputDataText"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:textAllCaps="false"
+                    android:textColor="@color/teal_200"
+                    android:textSize="16sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="@string/decimal_txt" />
+
+                <TextView
+                    android:id="@+id/tvLowerOutputData"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="4dp"
+                    android:layout_marginEnd="4dp"
+                    android:textColor="@color/teal_200"
+                    android:textSize="16sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/ivCopyLowerOutput"
+                    app:layout_constraintStart_toEndOf="@+id/tvLowerOutputDataText"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="12345" />
+
+                <ImageView
+                    android:id="@+id/ivCopyLowerOutput"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_content_copy"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:tint="@color/teal_200"
+                    tools:ignore="ContentDescription" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+        <TextView
+            android:id="@+id/tvBack"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:drawablePadding="8dp"
+            android:gravity="center_vertical"
+            android:paddingStart="8dp"
+            android:paddingTop="0dp"
+            android:paddingEnd="0dp"
+            android:paddingBottom="0dp"
+            android:text="@string/back"
+            android:textColor="@color/teal_200"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            app:drawableStartCompat="@drawable/ic_double_arrow"
+            app:drawableTint="@color/teal_200"
+            app:layout_constraintBottom_toTopOf="@+id/convertButton"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <Button
+            android:id="@+id/convertButton"
+            style="@style/Widget.MaterialComponents.Button.Icon"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp"
+            android:text="@string/convert"
+            android:backgroundTint="@color/teal_200"
+            app:icon="@drawable/ic_recycle"
+            app:iconGravity="end"
+            app:iconPadding="-24dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

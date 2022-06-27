@@ -22,4 +22,11 @@
     <string name="went_wrong">Something went wrong</string>
     <string name="reset">restart application</string>
     <string name="went_wrong_restart">something went wrong, restart your application</string>
+    <string name="support_for_fraction_converter">support? for fraction converter</string>
+    <string name="back">Back ?</string>
+    <string name="support_for_fraction">Support For Fraction</string>
+    <string name="this_popup_dialog_is_for_to_show_overlapping_output_data">This popup dialog is for to show overlapping output data, now it can see in full length</string>
+    <string name="result_dialog">Result Dialog</string>
+    <string name="cencel">Cencel</string>
+    <string name="okey">Okey</string>
 </resources>

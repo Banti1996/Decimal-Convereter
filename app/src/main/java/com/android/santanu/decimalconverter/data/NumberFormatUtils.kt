@@ -13,9 +13,7 @@ class NumberFormatUtils {
 
         @Throws(Exception::class)
         fun numberExchanger(data: String, numToChar: Boolean = true) : String {
-            Log.d(TAG, "NumberFormatUtils{} : numberExchanger() >>" +
-                " [line ${Thread.currentThread().stackTrace[2].lineNumber}] :: Data : $data"
-            )
+
             if(numToChar) {
                 return when (data) {
                     "0" -> "0"
