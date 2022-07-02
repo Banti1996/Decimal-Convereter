@@ -151,7 +151,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="16dp"
                     android:padding="4dp"
-                    android:text="@string/cencel"
+                    android:text="@string/cancel"
                     android:textColor="@color/red"
                     android:textSize="14sp"
                     android:textStyle="bold"

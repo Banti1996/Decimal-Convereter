@@ -27,5 +27,12 @@
     <string name="support_for_fraction">Support For Fraction</string>
     <string name="this_popup_dialog_is_for_to_show_overlapping_output_data">This popup dialog is for to show overlapping output data, now it can see in full length</string>
     <string name="result_dialog">Result Dialog</string>
-    <string name="cencel">Cencel</string>
+    <string name="cancel">Cancel</string>
+    <string name="okey">Okey</string>
+    <string name="back_to_main_page">back to main page..?</string>
+    <string name="select_your_range">select your range</string>
+    <string name="select_your_convertible_number_range_2_to_your_choice_2_to_36_within_this_range_decimal_number_will_convert">select your convertible number range 2 to your choice (2 to 36), within this range decimal number will convert.....!</string>
+    <string name="enter_value">Enter value</string>
+    <string name="to_range_2_to_36">To Range (2 to 36)</string>
+    <string name="support_for_custom_base_number_format">support for custom base number format ?</string>
 </resources>

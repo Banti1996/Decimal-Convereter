@@ -166,7 +166,7 @@
             android:layout_marginTop="0dp"
             android:layout_marginBottom="8dp"
             android:padding="8dp"
-            app:layout_constraintBottom_toTopOf="@id/tvFractionSupport"
+            app:layout_constraintBottom_toTopOf="@id/tvCustomSupport"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent"
@@ -650,7 +650,7 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <TextView
-            android:id="@+id/tvFractionSupport"
+            android:id="@+id/tvCustomSupport"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
@@ -659,14 +659,11 @@
             android:paddingEnd="0dp"
             android:paddingStart="8dp"
             android:gravity="center_vertical"
-            android:text="@string/support_for_fraction_converter"
+            android:text="@string/support_for_custom_base_number_format"
             android:textColor="@color/teal_200"
-            android:textStyle="bold"
+            android:textStyle="normal"
             android:textSize="12sp"
-            app:drawableEndCompat="@drawable/ic_double_arrow"
-            app:drawableTint="@color/teal_200"
-            android:drawablePadding="8dp"
-            android:visibility="gone"
+            android:visibility="visible"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toTopOf="@id/convertButton" />
 

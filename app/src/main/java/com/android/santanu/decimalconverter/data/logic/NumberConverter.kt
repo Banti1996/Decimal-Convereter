@@ -1,4 +1,4 @@
-package com.android.santanu.decimalconverter.data
+package com.android.santanu.decimalconverter.data.logic
 
 import kotlin.math.pow
 import kotlin.math.roundToInt
@@ -228,7 +228,7 @@ class NumberConverter {
     }
 
 
-    private fun decimalToOtherNumberFormat(
+    fun decimalToOtherNumberFormat(
         decimalData: String,
         convertFormat: Int,
         isFraction: Boolean = false,
@@ -342,7 +342,7 @@ class NumberConverter {
         }
     }
 
-    private fun otherToDecimalNumberFormat(
+    fun otherToDecimalNumberFormat(
         otherData: String,
         convertFormat: Int,
         isFraction: Boolean = false,

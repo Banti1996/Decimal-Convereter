@@ -7,20 +7,15 @@ import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.view.WindowManager
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.activity.viewModels
-import androidx.compose.ui.text.toLowerCase
 import androidx.core.content.ContextCompat
 import androidx.core.widget.doOnTextChanged
 import com.android.santanu.decimalconverter.R
-import com.android.santanu.decimalconverter.data.FractionNumberConverter
-import com.android.santanu.decimalconverter.data.GeneralNumberConverter
-import com.android.santanu.decimalconverter.data.NumberConverter
-import com.android.santanu.decimalconverter.data.NumberFormatUtils
+import com.android.santanu.decimalconverter.data.logic.NumberConverter
 import com.android.santanu.decimalconverter.databinding.ActivityMainBinding
 import com.android.santanu.decimalconverter.ui.base.BaseActivity
 import com.android.santanu.decimalconverter.vm.MainViewModel
@@ -279,9 +274,10 @@ class MainActivity : BaseActivity<ActivityMainBinding>(),
             isLowerFractionActive = isChecked
         }
 
-        mLayout.tvFractionSupport.setOnClickListener {
-            Intent(this@MainActivity, FractionActivity::class.java).apply {
+        mLayout.tvCustomSupport.setOnClickListener {
+            Intent(this@MainActivity, CustomFormatActivity::class.java).apply {
                 startActivity(this)
+                overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
             }
         }
 

@@ -1,6 +1,4 @@
-package com.android.santanu.decimalconverter.data
-
-import android.util.Log
+package com.android.santanu.decimalconverter.data.logic
 
 class NumberFormatUtils {
     companion object {

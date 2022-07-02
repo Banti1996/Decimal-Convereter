@@ -4,10 +4,13 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Users/santa/AndroidStudioProjects/DecimalConverter/app/src/main/res/drawable/textview_bg.xml" value="0.337" />
+        <entry key="..\:/Users/santa/AndroidStudioProjects/DecimalConverter/app/src/main/res/layout/activity_custom_format.xml" value="0.4552139037433155" />
         <entry key="..\:/Users/santa/AndroidStudioProjects/DecimalConverter/app/src/main/res/layout/activity_fraction.xml" value="0.2911500641299701" />
-        <entry key="..\:/Users/santa/AndroidStudioProjects/DecimalConverter/app/src/main/res/layout/activity_main.xml" value="0.5" />
+        <entry key="..\:/Users/santa/AndroidStudioProjects/DecimalConverter/app/src/main/res/layout/activity_main.xml" value="0.3882554161915621" />
+        <entry key="..\:/Users/santa/AndroidStudioProjects/DecimalConverter/app/src/main/res/layout/activity_test.xml" value="0.5" />
         <entry key="..\:/Users/santa/AndroidStudioProjects/DecimalConverter/app/src/main/res/layout/dialog_layout.xml" value="0.5" />
         <entry key="..\:/Users/santa/AndroidStudioProjects/DecimalConverter/app/src/main/res/layout/dialog_second_layout.xml" value="0.67" />
+        <entry key="..\:/Users/santa/AndroidStudioProjects/DecimalConverter/app/src/main/res/layout/recycler_layout.xml" value="0.67" />
         <entry key="..\:/Users/santa/AndroidStudioProjects/DecimalConverter/app/src/main/res/layout/spinner_layout.xml" value="0.3546875" />
         <entry key="..\:/Users/santa/AndroidStudioProjects/DecimalConverter/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.186" />
         <entry key="..\:/Users/santa/AndroidStudioProjects/DecimalConverter/app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" value="0.3545" />

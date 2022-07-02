@@ -1,0 +1,273 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".ui.CustomFormatActivity"
+        android:padding="16dp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginBottom="16dp"
+            app:layout_constraintBottom_toTopOf="@id/tvBack"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:layout_editor_absoluteX="16dp">
+
+            <TextView
+                android:id="@+id/tvHelperText"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@string/select_your_convertible_number_range_2_to_your_choice_2_to_36_within_this_range_decimal_number_will_convert"
+                android:textColor="@color/red"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:visibility="visible"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tvToText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="@string/to_range_2_to_36"
+                android:textColor="@color/red"
+                android:textSize="12sp"
+                android:textStyle="bold"
+                android:visibility="visible"
+                app:layout_constraintStart_toStartOf="@id/toLayout"
+                app:layout_constraintTop_toBottomOf="@id/tvHelperText" />
+
+            <TextView
+                android:id="@+id/tvFromText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="@string/to_range_2_to_36"
+                android:textColor="@color/red"
+                android:textSize="12sp"
+                android:textStyle="bold"
+                android:visibility="visible"
+                app:layout_constraintStart_toStartOf="@id/fromLayout"
+                app:layout_constraintTop_toBottomOf="@id/tvHelperText" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/toLayout"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="4dp"
+                android:hint="@string/enter_value"
+                android:textSize="14sp"
+                android:textColorHint="@color/red"
+                app:boxStrokeColor="@color/red"
+                app:endIconMode="custom"
+                app:endIconTint="@color/red"
+                app:errorEnabled="true"
+                app:errorIconDrawable="@drawable/ic_error"
+                app:errorIconTint="@color/yellow"
+                app:errorTextColor="@color/yellow"
+                app:helperTextEnabled="false"
+                app:helperTextTextColor="@color/red"
+                app:hintTextColor="@color/red"
+                app:layout_constraintEnd_toStartOf="@id/fromLayout"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tvToText"
+                app:startIconDrawable="@drawable/ic_binary_code"
+                app:startIconTint="@color/red">
+
+                <androidx.appcompat.widget.AppCompatAutoCompleteTextView
+                    android:id="@+id/toInputData"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:clickable="true"
+                    android:cursorVisible="false"
+                    android:ems="3"
+                    android:gravity="start"
+                    android:inputType="number"
+                    android:longClickable="false"
+                    android:maxLines="1"
+                    android:textAllCaps="false"
+                    android:textColor="@color/red"
+                    tools:ignore="KeyboardInaccessibleWidget" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/fromLayout"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginStart="4dp"
+                android:hint="@string/enter_value"
+                android:textSize="14sp"
+                android:textColorHint="@color/red"
+                app:boxStrokeColor="@color/red"
+                app:endIconMode="custom"
+                app:endIconTint="@color/red"
+                app:errorEnabled="true"
+                app:errorIconDrawable="@drawable/ic_error"
+                app:errorIconTint="@color/yellow"
+                app:errorTextColor="@color/yellow"
+                app:helperTextEnabled="false"
+                app:helperTextTextColor="@color/red"
+                app:hintTextColor="@color/red"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/toLayout"
+                app:layout_constraintTop_toBottomOf="@id/tvFromText"
+                app:startIconDrawable="@drawable/ic_binary_code"
+                app:startIconTint="@color/red">
+
+                <androidx.appcompat.widget.AppCompatAutoCompleteTextView
+                    android:id="@+id/fromInputData"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:clickable="true"
+                    android:cursorVisible="false"
+                    android:ems="3"
+                    android:gravity="start"
+                    android:inputType="number"
+                    android:longClickable="false"
+                    android:maxLines="1"
+                    android:textAllCaps="false"
+                    android:textColor="@color/red"
+                    tools:ignore="KeyboardInaccessibleWidget" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/inputLayout"
+                style="@style/UpperSegmentTextInputLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:hint="@string/enter_your_format_value"
+                android:textColorHint="@color/red"
+                app:boxStrokeColor="@color/red"
+                app:endIconCheckable="true"
+                app:endIconDrawable="@drawable/ic_content_copy"
+                app:endIconMode="custom"
+                app:endIconTint="@color/red"
+                app:errorEnabled="true"
+                app:errorIconDrawable="@drawable/ic_error"
+                app:errorIconTint="@color/yellow"
+                app:errorTextColor="@color/yellow"
+                app:helperTextEnabled="false"
+                app:helperTextTextColor="@color/red"
+                app:hintTextColor="@color/red"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/toLayout"
+                app:startIconDrawable="@drawable/ic_input"
+                app:startIconTint="@color/red">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/inputData"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="none"
+                    android:clickable="true"
+                    android:cursorVisible="true"
+                    android:longClickable="false"
+                    android:textColor="@color/red" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <TextView
+                android:id="@+id/tvFractionText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="@string/support_for_fraction"
+                android:textAllCaps="false"
+                android:textColor="@color/red"
+                android:textSize="12sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/inputLayout" />
+
+            <com.google.android.material.switchmaterial.SwitchMaterial
+                android:id="@+id/swFractionActive"
+                android:layout_width="wrap_content"
+                android:layout_height="15dp"
+                android:checked="false"
+                android:enabled="true"
+                app:layout_constraintBottom_toBottomOf="@id/tvFractionText"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/tvFractionText" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recycler"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_marginTop="8dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/pbLoading"
+                tools:listitem="@layout/recycler_layout"/>
+
+            <com.google.android.material.progressindicator.LinearProgressIndicator
+                android:id="@+id/pbLoading"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:visibility="invisible"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/swFractionActive"
+                tools:visibility="visible"/>
+
+
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <TextView
+            android:id="@+id/tvBack"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:drawablePadding="8dp"
+            android:gravity="center_vertical"
+            android:paddingStart="8dp"
+            android:paddingTop="0dp"
+            android:paddingEnd="0dp"
+            android:paddingBottom="0dp"
+            android:text="@string/back_to_main_page"
+            android:textColor="@color/red"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            app:drawableStartCompat="@drawable/ic_back"
+            app:drawableTint="@color/red"
+            app:layout_constraintBottom_toTopOf="@id/convertButton"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <Button
+            android:id="@+id/convertButton"
+            style="@style/Widget.MaterialComponents.Button.Icon"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp"
+            android:text="@string/convert"
+            android:backgroundTint="@color/red"
+            app:icon="@drawable/ic_recycle"
+            app:iconGravity="end"
+            app:iconPadding="-24dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

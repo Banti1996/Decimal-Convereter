@@ -4,9 +4,9 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import com.android.santanu.decimalconverter.R
-import com.android.santanu.decimalconverter.data.FractionNumberConverter
-import com.android.santanu.decimalconverter.data.GeneralNumberConverter
-import com.android.santanu.decimalconverter.data.NumberFormatUtils
+import com.android.santanu.decimalconverter.data.logic.FractionNumberConverter
+import com.android.santanu.decimalconverter.data.logic.GeneralNumberConverter
+import com.android.santanu.decimalconverter.data.logic.NumberFormatUtils
 
 class TestActivity : AppCompatActivity() {
     private val TAG: String by lazy { TestActivity::class.java.simpleName }

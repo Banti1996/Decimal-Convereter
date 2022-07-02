@@ -1,6 +1,5 @@
-package com.android.santanu.decimalconverter.data
+package com.android.santanu.decimalconverter.data.logic
 
-import android.util.Log
 import kotlin.math.pow
 import kotlin.math.roundToInt
 
